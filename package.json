@@ -4,13 +4,14 @@
   "description": "projeto de locação de fitas com tdd",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node ./seed"
   },
   "author": "João Antônio Mangueira",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "chai": "^4.3.4",
-    "faker": "^5.5.3",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
     "sinon": "^9.2.4",

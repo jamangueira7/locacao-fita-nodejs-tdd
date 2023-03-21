@@ -1,4 +1,4 @@
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 
 const Tape = require('./../src/entities/tape');
 const Movie = require('../src/entities/movie');
@@ -9,68 +9,83 @@ const { join } = require('path');
 const { writeFile } = require('fs/promises');
 
 const seederBaseFoder = join(__dirname, "../", "database");
-const ITEMS_AMOUNT = 2;
 
-const carCategory = new CarCategory({
-    id: faker.random.uuid(),
-    name: faker.vehicle.type(),
-    carIds: [],
-    price: faker.finance.amount(20, 100)
-});
+const ITEMS_AMOUNT_CATEGORY = 3;
+const ITEMS_AMOUNT_MOVIE = 30;
+const ITEMS_AMOUNT_TAPE = 60;
+const ITEMS_AMOUNT_CLIENT = 5;
 
-const carCategory2 = new CarCategory({
-    id: faker.random.uuid(),
-    name: faker.vehicle.type(),
-    carIds: [],
-    price: faker.finance.amount(20, 100)
-});
-
-const cars = [];
-const customers = [];
-
-for (let index=0; index <= ITEMS_AMOUNT; index++) {
-    const car = new Car({
-        id: faker.random.uuid(),
-        name: faker.vehicle.model(),
-        available: true,
-        gasAvailable: true,
-        releaseYear: faker.date.past().getFullYear(),
+const categories = [];
+for (let index=0; index <= ITEMS_AMOUNT_CATEGORY; index++) {
+    const category = new Category({
+        id: faker.datatype.uuid(),
+        name: faker.random.word()
     });
 
-    carCategory.carIds.push(car.id);
-    cars.push(car);
-
-    const customer = new Customer({
-        id: faker.random.uuid(),
-        name: faker.name.findName(),
-        age: faker.random.number({ min: 18, max: 50 }),
-    });
-
-    customers.push(customer);
+    categories.push(category);
 }
 
-const car2 = new Car({
-    id: faker.random.uuid(),
-    name: faker.vehicle.model(),
-    available: true,
-    gasAvailable: true,
-    releaseYear: faker.date.past().getFullYear(),
-});
+const movies = [];
+const classification = [0, 12, 16, 18];
+for (let index=0; index <= ITEMS_AMOUNT_MOVIE; index++) {
+    const randomNumber = Math.floor(Math.random() * classification.length);
+    const randomCategory = Math.floor(Math.random() * categories.length);
+    const movie = new Movie({
+        id: faker.datatype.uuid(),
+        name: faker.random.words(5),
+        description: faker.random.words(10),
+        categoryId: categories[randomCategory].id,
+        year: faker.datatype.number({ min: 1950, max: 2020 }),
+        classification: classification[randomNumber],
+    });
 
-cars.push(car2);
+    movies.push(movie);
+}
 
-carCategory2.carIds.push(car2.id);
+const clients = [];
+
+for (let index=0; index <= ITEMS_AMOUNT_CLIENT; index++) {
+    const client = new Client({
+        id: faker.datatype.uuid(),
+        name: faker.name.fullName(),
+        birthDate: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }),
+        address: `${faker.address.street()}, ${faker.address.buildingNumber()} ${faker.address.cityName()} = ${faker.address.stateAbbr()}`,
+        gender: faker.name.sexType()
+    });
+
+    clients.push(client);
+}
+
+const tapes = [];
+
+for (let index=0; index <= ITEMS_AMOUNT_TAPE; index++) {
+    const randomMovie = Math.floor(Math.random() * movies.length);
+    const tape = new Tape({
+        id: faker.datatype.uuid(),
+        color: faker.commerce.color(),
+        movieId: movies[randomMovie].id,
+    });
+
+    tapes.push(tape);
+}
+
 
 const write = (filename, data) => writeFile(join(seederBaseFoder, filename), JSON.stringify(data));
 
 ;(async () => {
-    await write('cars.json', cars);
-    await write('customers.json', customers);
-    await write('carCategories.json', [carCategory, carCategory2]);
+    await write('categories.json', categories);
+    await write('movies.json', movies);
+    await write('clients.json', clients);
+    await write('tapes.json', tapes);
 
     console.log('##################');
     console.log('Creating  fakers');
-    console.log('cars', cars);
-    console.log('customers', customers);
-    console.log('carCategory', carCategory);
+    console.log('-----------------');
+    console.log('categories', categories);
+    console.log('-----------------');
+    console.log('movies', movies);
+    console.log('-----------------');
+    console.log('clients', clients);
+    console.log('-----------------');
+    console.log('tapes', tapes);
 })();
