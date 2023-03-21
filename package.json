@@ -1,0 +1,19 @@
+{
+  "name": "locacao-fita-node-tdd",
+  "version": "1.0.0",
+  "description": "projeto de locação de fitas com tdd",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "João Antônio Mangueira",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "faker": "^5.5.3",
+    "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
+    "sinon": "^9.2.4",
+    "supertest": "^6.3.3"
+  }
+}
