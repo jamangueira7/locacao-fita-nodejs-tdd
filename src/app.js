@@ -1,14 +1,34 @@
 const http = require('http');
 
-const PokemonRepository = require("./repository/pokemonRepository");
-const PokemonService = require("./service/pokemonService");
+const CategoryRepository = require("./repository/categoryRepository");
+const ClientRepository = require("./repository/clientRepository");
+const MovieRepository = require("./repository/movieRepository");
+const TapeRepository = require("./repository/tapeRepository");
+const RentalRepository = require("./repository/rentalRepository");
+
+const CategoryService = require("./service/categoryService");
+const ClientService = require("./service/clientService");
+const MovieService = require("./service/movieService");
+const TapeService = require("./service/tapeService");
+const RentalService = require("./service/rentalService");
 
 const PORT = 3000;
 const DEFAULT_HEADER = { 'Content-Type' : 'application/json' };
 
 const createPokemonService = () => {
-    const pokemonRepository = new PokemonRepository()
-    return { PokemonService: new PokemonService({ repository: pokemonRepository }) }
+    const categoryRepository = new CategoryRepository();
+    const clientRepository = new ClientRepository();
+    const movieRepository = new MovieRepository();
+    const tapeRepository = new TapeRepository();
+    const rentalRepository = new RentalRepository();
+
+    return {
+        CategoryService: new CategoryService({ repository: categoryRepository }),
+        ClientService: new ClientService({ repository: clientRepository }),
+        MovieService: new MovieService({ repository: movieRepository }),
+        TapeService: new TapeService({ repository: tapeRepository }),
+        RentalService: new RentalService({ repository: rentalRepository }),
+    }
 }
 class App {
     constructor(dependencies = createPokemonService()) {

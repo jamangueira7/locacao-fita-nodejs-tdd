@@ -1,8 +1,8 @@
 const CategoryRepository = require('./../repository/categoryRepository');
 
 class CategoryService {
-    constructor({ categories }) {
-        this.categoryRepository = new CategoryRepository({ file: categories });
+    constructor({ repository }) {
+        this.repository = repository;
     }
 }
 
