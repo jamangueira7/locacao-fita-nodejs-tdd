@@ -4,7 +4,9 @@
   "description": "projeto de locação de fitas com tdd",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node src/api.js",
+    "test": "npx mocha --diff --timeout 5000 --exit ./test/**/*.test.js",
+    "test:cov": "npx nyc mocha ./test/**/*.test.js",
     "seed": "node ./seed"
   },
   "author": "João Antônio Mangueira",

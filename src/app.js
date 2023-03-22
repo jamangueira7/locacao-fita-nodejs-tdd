@@ -36,18 +36,10 @@ class App {
     }
     createRoutes() {
         return {
-            '/team:get': async (request, response) => {
+            '/category:get': async (request, response) => {
 
                 const team = await this.pokemonService.getTeam();
                 response.write(JSON.stringify({ team }));
-                return response.end();
-            },
-
-            '/team?name:get': async (request, response) => {
-
-                const { id } = request;
-                const pokemon = await this.pokemonService.getPokemon(id);
-                response.write(JSON.stringify( pokemon ));
                 return response.end();
             },
 
