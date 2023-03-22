@@ -11,6 +11,7 @@ const categoryDatabase  = join(__dirname, './../../database', "categories.json")
 
 const mocks = {
     validCategory: require('./../mocks/category/valid-category.json'),
+    validAllCategories: require('./../mocks/category/valid-all-categories.json'),
 };
 
 
@@ -45,6 +46,15 @@ describe('CategoryService Suite Tests', () => {
         const expected = mocks.validCategory;
 
         const result = await categoryService.getCategoryById(id);
+
+        expect(result).to.eql(expected);
+
+    });
+
+    it('should return all categories', async () => {
+        const expected = mocks.validAllCategories;
+
+        const result = await categoryService.getAllCategory();
 
         expect(result).to.eql(expected);
 

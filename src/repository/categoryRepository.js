@@ -15,6 +15,13 @@ class CategoryRepository {
 
         return content.find(({ id }) => id === id);
     }
+
+    async all() {
+
+        const content = typeof this.file === "object" ? this.file : JSON.parse(await readFile(this.file));
+
+        return content;
+    }
 }
 
 module.exports = CategoryRepository;
