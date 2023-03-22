@@ -7,10 +7,11 @@ const { expect } = require('chai');
 const MovieService = require('./../../src/service/movieService');
 const MovieRepository = require('./../../src/repository/movieRepository');
 
-const movieDatabase  = join(__dirname, './../../database', "categories.json");
+const movieDatabase  = join(__dirname, './../../database', "movies.json");
 
 const mocks = {
     validMovie: require('./../mocks/movie/valid-movie.json'),
+    validAllMovies: require('./../mocks/movie/valid-all-movies.json'),
 };
 
 
@@ -45,6 +46,15 @@ describe('MovieService Suite Tests', () => {
         const expected = mocks.validMovie;
 
         const result = await movieService.getMovieById(id);
+
+        expect(result).to.eql(expected);
+
+    });
+
+    it('should return all movies', async () => {
+        const expected = mocks.validAllMovies;
+
+        const result = await movieService.getAllMovies();
 
         expect(result).to.eql(expected);
 
