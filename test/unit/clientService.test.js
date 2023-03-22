@@ -41,10 +41,10 @@ describe('ClientService Suite Tests', () => {
     });
 
     it('should return client by id', async () => {
-        const id = "97587e96-fa58-48d2-acb7-9f2b27a0064f";
-        const expected = mocks.validCategory;
+        const id = "1f671f49-0e3f-442e-b764-f0a4222b5a3e";
+        const expected = mocks.validClient;
 
-        const result = await clientService.getCategoryById(id);
+        const result = await clientService.getClientById(id);
 
         expect(result).to.eql(expected);
 

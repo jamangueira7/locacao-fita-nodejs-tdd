@@ -1,9 +1,14 @@
 const ClientRepository = require('./../repository/clientRepository');
 
-class CategoryService {
+class ClientService {
     constructor({ repository }) {
         this.repository = repository;
     }
+
+    async getClientById(id) {
+        const client = await this.repository.find(id);
+        return client;
+    }
 }
 
-module.exports = CategoryService;
+module.exports = ClientService;
