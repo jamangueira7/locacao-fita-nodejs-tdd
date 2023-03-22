@@ -1,7 +1,9 @@
 const { readFile } = require('fs/promises');
+const Util = require('./../util/util');
+
 class ClientRepository {
     constructor({ file }) {
-        this.file = file;
+        this.file = Util.prepareData(file);
     }
 
     async find(id) {
@@ -13,6 +15,10 @@ class ClientRepository {
         }
 
         return content.find(({ id }) => id === id);
+    }
+
+    async all() {
+        return this.file;
     }
 }
 

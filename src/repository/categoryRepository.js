@@ -1,26 +1,20 @@
 const { readFile } = require('fs/promises');
-
+const Util = require('./../util/util');
 class CategoryRepository {
     constructor({ file }) {
-        this.file = file;
+        this.file = Util.prepareData(file);
     }
 
     async find(id) {
-
-        const content = typeof this.file === "object" ? this.file : JSON.parse(await readFile(this.file));
-
         if(!id) {
-            return content;
+            return this.file;
         }
 
-        return content.find(({ id }) => id === id);
+        return this.file.find(({ id }) => id === id);
     }
 
     async all() {
-
-        const content = typeof this.file === "object" ? this.file : JSON.parse(await readFile(this.file));
-
-        return content;
+        return this.file;
     }
 }
 

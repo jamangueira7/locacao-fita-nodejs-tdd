@@ -7,10 +7,11 @@ const { expect } = require('chai');
 const ClientService = require('./../../src/service/clientService');
 const ClientRepository = require('./../../src/repository/clientRepository');
 
-const clientDatabase  = join(__dirname, './../../database', "categories.json");
+const clientDatabase  = join(__dirname, './../../database', "clients.json");
 
 const mocks = {
     validClient: require('./../mocks/client/valid-client.json'),
+    validAllClients: require('./../mocks/client/valid-all-clients.json'),
 };
 
 
@@ -45,6 +46,15 @@ describe('ClientService Suite Tests', () => {
         const expected = mocks.validClient;
 
         const result = await clientService.getClientById(id);
+
+        expect(result).to.eql(expected);
+
+    });
+
+    it('should return all clients', async () => {
+        const expected = mocks.validAllClients;
+
+        const result = await clientService.getAllClients();
 
         expect(result).to.eql(expected);
 

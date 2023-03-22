@@ -11,7 +11,7 @@ class CategoryService {
     }
 
     async getAllCategory(id) {
-        const categories = await this.repository.all(id);
+        const categories = await this.repository.all();
         return categories;
     }
 }
