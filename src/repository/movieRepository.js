@@ -1,9 +1,8 @@
-const { readFile } = require('fs/promises');
 const Util = require("../util/util");
 
 class MovieRepository {
-    constructor({ file }) {
-        this.file = Util.prepareData(file);
+    async init({ file }) {
+        this.file = await Util.prepareData(file);
     }
 
     async find(id) {
@@ -16,6 +15,16 @@ class MovieRepository {
 
     async all() {
         return this.file;
+    }
+
+    async allMoviesByCategory(id) {
+        if(!id) {
+            return this.file;
+        }
+
+        return await this.file.filter(({categoryId}) => {
+            return categoryId === id
+        });
     }
 }
 

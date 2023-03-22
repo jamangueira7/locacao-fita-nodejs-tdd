@@ -11,13 +11,15 @@ const movieDatabase  = join(__dirname, './../../database', "movies.json");
 
 const mocks = {
     validMovie: require('./../mocks/movie/valid-movie.json'),
-    validAllMovies: require('./../mocks/movie/valid-all-movies.json'),
+    validAllMovies: require('../mocks/movie/valid-all-movies.json'),
+    validAllMoviesByCategory: require('./../mocks/movie/valid-all-movies-by-category.json'),
 };
 
+movieRepository = new MovieRepository();
 
-movieRepository = new MovieRepository({
+movieRepository.init({
     file: movieDatabase
-});
+})
 
 const mockRepositoryGetMovieById = sinon.stub(movieRepository, 'find');
 mockRepositoryGetMovieById.resolves(mocks.validMovie);
@@ -57,6 +59,14 @@ describe('MovieService Suite Tests', () => {
         const result = await movieService.getAllMovies();
 
         expect(result).to.eql(expected);
+    });
 
+   it('should return all movies by Category', async () => {
+        const id = "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9";
+        const expected = mocks.validAllMoviesByCategory;
+
+        const result = await movieService.getAllMoviesByCategoryId(id);
+
+        expect(result).to.eql(expected);
     });
 });

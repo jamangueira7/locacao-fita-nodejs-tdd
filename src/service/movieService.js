@@ -14,6 +14,11 @@ class MovieService {
         const movies = await this.repository.all();
         return movies;
     }
+
+    async getAllMoviesByCategoryId(categoryId) {
+        const movies = await this.repository.allMoviesByCategory(categoryId);
+        return movies;
+    }
 }
 
 module.exports = MovieService;
