@@ -14,9 +14,11 @@ const mocks = {
 };
 
 
-tapeRepository = new TapeRepository({
+tapeRepository = new TapeRepository();
+tapeRepository.init({
     file: tapeDatabase
 });
+
 
 const mockRepositoryGetTapeById = sinon.stub(tapeRepository, 'find');
 mockRepositoryGetTapeById.resolves(mocks.validTape);

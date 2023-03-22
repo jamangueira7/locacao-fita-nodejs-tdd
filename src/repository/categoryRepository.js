@@ -1,8 +1,7 @@
-const { readFile } = require('fs/promises');
 const Util = require('./../util/util');
 class CategoryRepository {
-    constructor({ file }) {
-        this.file = Util.prepareData(file);
+    async init({ file }) {
+        this.file = await Util.prepareData(file);
     }
 
     async find(id) {

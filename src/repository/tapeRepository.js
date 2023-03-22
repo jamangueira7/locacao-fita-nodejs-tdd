@@ -1,7 +1,7 @@
-const { readFile } = require('fs/promises');
+const Util = require("../util/util");
 class TapeRepository {
-    constructor({ file }) {
-        this.file = file;
+    async init({ file }) {
+        this.file = await Util.prepareData(file);
     }
 
     async find(id) {

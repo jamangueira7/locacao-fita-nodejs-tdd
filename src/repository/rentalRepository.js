@@ -1,6 +1,8 @@
+const Util = require("../util/util");
+
 class RentalRepository {
-    constructor({ file }) {
-        this.file = file;
+    async init({ file }) {
+        this.file = await Util.prepareData(file);
     }
 }
 

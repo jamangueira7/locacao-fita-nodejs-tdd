@@ -15,7 +15,8 @@ const mocks = {
 };
 
 
-categoryRepository = new CategoryRepository({
+categoryRepository = new CategoryRepository();
+categoryRepository.init({
     file: categoryDatabase
 });
 

@@ -15,9 +15,11 @@ const mocks = {
 };
 
 
-clientRepository = new ClientRepository({
+clientRepository = new ClientRepository();
+clientRepository.init({
     file: clientDatabase
 });
+
 
 const mockRepositoryGetClientById = sinon.stub(clientRepository, 'find');
 mockRepositoryGetClientById.resolves(mocks.validClient);
