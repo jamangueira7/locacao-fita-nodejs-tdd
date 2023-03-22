@@ -13,6 +13,9 @@ const mocks = {
     validMovie: require('./../mocks/movie/valid-movie.json'),
     validAllMovies: require('../mocks/movie/valid-all-movies.json'),
     validAllMoviesByCategory: require('./../mocks/movie/valid-all-movies-by-category.json'),
+    validAllMoviesRange: require('../mocks/movie/valid-all-movies-range-1997-2010.json'),
+    validAllMoviesClassification12: require('../mocks/movie/valid-all-movies-by-classification-12.json'),
+    validAllMoviesByPartOfName: require('../mocks/movie/valid-all-movies-by-part-of-name.json'),
 };
 
 movieRepository = new MovieRepository();
@@ -67,6 +70,32 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.getAllMoviesByCategoryId(id);
 
+        expect(result).to.eql(expected);
+    });
+
+    it('should return all movies major 1997 and minor 2010', async () => {
+        const init = 1997;
+        const end = 2010;
+        const expected = mocks.validAllMoviesRange;
+
+        const result = await movieService.getMoviesByTimeRange(init, end);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should return all movies by classification: 12', async () => {
+        const classification = 12;
+        const expected = mocks.validAllMoviesClassification12;
+
+        const result = await movieService.getMoviesByClassification(classification);
+        expect(result).to.eql(expected);
+    });
+
+    it('should return all movies that have that word in the name', async () => {
+        const name = "South";
+        const expected = mocks.validAllMoviesByPartOfName;
+
+        const result = await movieService.getMoviesThatHaveThatWordInTheName(name);
         expect(result).to.eql(expected);
     });
 });

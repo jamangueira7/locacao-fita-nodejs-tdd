@@ -22,10 +22,34 @@ class MovieRepository {
             return this.file;
         }
 
-        return await this.file.filter(({categoryId}) => {
-            return categoryId === id
-        });
+        return await this.file.filter(({ categoryId }) => categoryId === id);
     }
+
+    async getMoviesByTimeRange(init, end) {
+        if(!init || !end) {
+            return this.file;
+        }
+
+        return await this.file.filter(({ year }) => init <= year && end >= end);
+    }
+
+    async getMoviesByClassification(classification) {
+        if(!classification) {
+            return this.file;
+        }
+
+        return await this.file.filter(({ classification }) => classification === classification);
+    }
+
+    async getMoviesThatHaveThatWordInTheName(part) {
+        if(!part) {
+            return this.file;
+        }
+
+        return await this.file.filter(({ name }) => name.toLowerCase().includes(part.toLowerCase()));
+    }
+
+
 }
 
 module.exports = MovieRepository;
