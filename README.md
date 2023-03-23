@@ -28,7 +28,6 @@ Na criação do banco com as seeds eu usei nomes fakes. Por exemplo as categoria
 - Clone o projeto.
 - Entre na raiz do projeto.
 - Execute `npm install`.
-- Entre na pasta src.
 - Execute `npm run seed` para criar o banco.
 - Execute `npm run test`.
 
