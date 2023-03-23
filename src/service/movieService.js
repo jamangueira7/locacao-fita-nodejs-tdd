@@ -15,24 +15,34 @@ class MovieService {
         return movies;
     }
 
-    async getAllMoviesByCategoryId(categoryId) {
-        const movies = await this.repository.allMoviesByCategory(categoryId);
-        return movies;
+    async getAllMoviesByCategoryId(id) {
+        const movies = await this.repository.all();
+        const result = await movies.filter(({ categoryId }) => categoryId === id);
+        return result;
     }
 
     async getMoviesByTimeRange(ini, end) {
-        const movies = await this.repository.getMoviesByTimeRange(ini, end);
-        return movies;
+        const movies = await this.repository.all();
+        const result = await movies.filter(({ year }) => ini <= year && end >= end);
+        return result;
     }
 
     async getMoviesByClassification(classification) {
-        const movies = await this.repository.getMoviesByClassification(classification);
-        return movies;
+        const movies = await this.repository.all();
+        const result = await movies.filter(({ classification }) => classification === classification);
+        return result;
     }
 
-    async getMoviesThatHaveThatWordInTheName(name) {
-        const movies = await this.repository.getMoviesThatHaveThatWordInTheName(name);
-        return movies;
+    async getMoviesThatHaveThatWordInTheName(part) {
+        const movies = await this.repository.all();
+        const result = await movies.filter(({ name }) => name.toLowerCase().includes(part.toLowerCase()));
+        return result;
+    }
+
+    async getMoviesThatHaveThatWordInTheDescription(part) {
+        const movies = await this.repository.all();
+        const result = await movies.filter(({ description }) => description.toLowerCase().includes(part.toLowerCase()));
+        return result;
     }
 }
 

@@ -17,22 +17,6 @@ class MovieRepository {
         return this.file;
     }
 
-    async allMoviesByCategory(id) {
-        if(!id) {
-            return this.file;
-        }
-
-        return await this.file.filter(({ categoryId }) => categoryId === id);
-    }
-
-    async getMoviesByTimeRange(init, end) {
-        if(!init || !end) {
-            return this.file;
-        }
-
-        return await this.file.filter(({ year }) => init <= year && end >= end);
-    }
-
     async getMoviesByClassification(classification) {
         if(!classification) {
             return this.file;

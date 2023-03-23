@@ -16,6 +16,7 @@ const mocks = {
     validAllMoviesRange: require('../mocks/movie/valid-all-movies-range-1997-2010.json'),
     validAllMoviesClassification12: require('../mocks/movie/valid-all-movies-by-classification-12.json'),
     validAllMoviesByPartOfName: require('../mocks/movie/valid-all-movies-by-part-of-name.json'),
+    validAllMoviesByPartOfDescription: require('../mocks/movie/valid-all-movies-by-part-of-description.json'),
 };
 
 movieRepository = new MovieRepository();
@@ -26,6 +27,9 @@ movieRepository.init({
 
 const mockRepositoryGetMovieById = sinon.stub(movieRepository, 'find');
 mockRepositoryGetMovieById.resolves(mocks.validMovie);
+
+const mockRepositoryGetAllMovies = sinon.stub(movieRepository, 'all');
+mockRepositoryGetAllMovies.resolves(mocks.validAllMovies);
 
 describe('MovieService Suite Tests', () => {
 
@@ -96,6 +100,15 @@ describe('MovieService Suite Tests', () => {
         const expected = mocks.validAllMoviesByPartOfName;
 
         const result = await movieService.getMoviesThatHaveThatWordInTheName(name);
+        expect(result).to.eql(expected);
+    });
+
+    it('should return all movies that have that word in the description', async () => {
+        const name = "South";
+        const expected = mocks.validAllMoviesByPartOfDescription;
+
+        const result = await movieService.getMoviesThatHaveThatWordInTheDescription(name);
+
         expect(result).to.eql(expected);
     });
 });
