@@ -6,13 +6,15 @@ class TapeRepository {
 
     async find(id) {
 
-        const content = typeof this.file === "object" ? this.file : JSON.parse(await readFile(this.file));
-
         if(!id) {
-            return content;
+            return this.file;
         }
 
-        return content.find(({ id }) => id === id);
+        return this.file.find(({ id }) => id === id);
+    }
+
+    async all() {
+        return this.file;
     }
 }
 

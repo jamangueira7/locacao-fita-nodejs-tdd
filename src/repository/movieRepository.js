@@ -16,24 +16,6 @@ class MovieRepository {
     async all() {
         return this.file;
     }
-
-    async getMoviesByClassification(classification) {
-        if(!classification) {
-            return this.file;
-        }
-
-        return await this.file.filter(({ classification }) => classification === classification);
-    }
-
-    async getMoviesThatHaveThatWordInTheName(part) {
-        if(!part) {
-            return this.file;
-        }
-
-        return await this.file.filter(({ name }) => name.toLowerCase().includes(part.toLowerCase()));
-    }
-
-
 }
 
 module.exports = MovieRepository;
