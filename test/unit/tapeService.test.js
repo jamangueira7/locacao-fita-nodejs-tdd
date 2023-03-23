@@ -12,6 +12,9 @@ const tapeDatabase  = join(__dirname, './../../database', "tapes.json");
 const mocks = {
     validTape: require('./../mocks/tape/valid-tape.json'),
     validAllTapes: require('./../mocks/tape/valid-all-tapes.json'),
+    validAllTapesByMovieId: require('./../mocks/tape/valid-all-tapes-by-movieid.json'),
+    validAllTapesByColor: require('./../mocks/tape/valid-all-tapes-by-color.json'),
+    validRandomTape: require('./../mocks/tape/valid-random-tape.json'),
 };
 
 
@@ -23,6 +26,9 @@ tapeRepository.init({
 
 const mockRepositoryGetTapeById = sinon.stub(tapeRepository, 'find');
 mockRepositoryGetTapeById.resolves(mocks.validTape);
+
+const mockRepositoryGetAllTapes = sinon.stub(tapeRepository, 'all');
+mockRepositoryGetAllTapes.resolves(mocks.validAllTapes);
 
 describe('TapeService Suite Tests', () => {
 
@@ -59,4 +65,33 @@ describe('TapeService Suite Tests', () => {
 
         expect(result).to.eql(expected);
     });
+
+    it('should return all tapes by movieId', async () => {
+        const movieId = "a6e634fd-1c79-4062-9d4b-61ead6cf2b8c";
+        const expected = mocks.validAllTapesByMovieId;
+
+        const result = await tapeService.getAllTapesByMovieId(movieId);
+        expect(result).to.eql(expected);
+    });
+
+    it('should return random tape by color', async () => {
+        const color = "green";
+        const expected = mocks.validAllTapesByColor;
+
+        const result = await tapeService.getAllTapesByColor(color);
+        expect(result).to.eql(expected);
+    });
+
+    it('should return random tape by movieId', async () => {
+        const id = "a6e634fd-1c79-4062-9d4b-61ead6cf2b8c";
+
+        sinon.stub(Math, Math.random.name).returns(0);
+
+        const expected = mocks.validRandomTape;
+
+        const result = await tapeService.getRandomTapeByMovieId(id);
+
+        expect(result).to.eql(expected);
+    });
 });
+
