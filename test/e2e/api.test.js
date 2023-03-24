@@ -26,6 +26,7 @@ const mocks = {
     moviesByPartOfDesc: require("../mocks/movie/valid-all-movies-by-part-of-description.json"),
 }
 
+
 describe("API Suite test", () => {
     let api = {};
     let sandbox = sinon.createSandbox();
@@ -61,10 +62,10 @@ describe("API Suite test", () => {
                 listen: (port, callback) => {}
             });
 
-            api.createServer(portTest);
+            api.createServer("test", portTest);
 
             expect(http.createServer.callCount).to.be.equal(1);
-            expect(api.createServer.getCall(0).args[0]).to.be.equal(portTest);
+            expect(api.createServer.getCall(0).args[1]).to.be.equal(portTest);
         });
     });
 
@@ -74,7 +75,7 @@ describe("API Suite test", () => {
 
             api = {
                 instance,
-                server: instance.createServer(SERVER_TEST_PORT),
+                server: instance.createServer("test", SERVER_TEST_PORT),
             };
         });
 
@@ -95,6 +96,7 @@ describe("API Suite test", () => {
         });
 
         describe('/categories', () => {
+
             it('request all categories', async () => {
                 const expected = {
                     categories: mocks.allCategories

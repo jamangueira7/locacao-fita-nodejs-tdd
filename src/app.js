@@ -13,15 +13,15 @@ const MovieService = require("./service/movieService");
 const TapeService = require("./service/tapeService");
 const RentalService = require("./service/rentalService");
 
-const dbCategory = join(__dirname, '../database', "categories.json");
-const dbClient = join(__dirname, '../database', "clients.json");
-const dbMovies = join(__dirname, '../database', "movies.json");
-const dbTapes = join(__dirname, '../database', "tapes.json");
+let dbCategory;
+let dbClient;
+let dbMovies;
+let dbTapes;
 
 const PORT = 3000;
 const DEFAULT_HEADER = { 'Content-Type' : 'application/json' };
 
-const createPokemonService = () => {
+const createService = () => {
     const categoryRepository = new CategoryRepository();
     const clientRepository = new ClientRepository();
     const movieRepository = new MovieRepository();
@@ -42,13 +42,32 @@ const createPokemonService = () => {
         RentalService: new RentalService({ repository: rentalRepository }),
     }
 }
+
+const createDependencies = (enveroment) => {
+    if(enveroment === "produce") {
+        dbCategory =  join(__dirname, '../database', "categories.json");
+        dbClient = join(__dirname, '../database', "clients.json");
+        dbMovies = join(__dirname, '../database', "movies.json");
+        dbTapes = join(__dirname, '../database', "tapes.json");
+
+    } else {
+        dbCategory = join(__dirname, '../test/mocks/category', "valid-all-categories.json");
+        dbClient = join(__dirname, '../test/mocks/client', "valid-all-clients.json");
+        dbMovies = join(__dirname, '../test/mocks/movie', "valid-all-movies.json");
+        dbTapes = join(__dirname, '../test/mocks/tape', "valid-all-tapes.json");
+    }
+
+}
+
 class App {
-    constructor(dependencies = createPokemonService()) {
+    constructor(dependencies = createService()) {
         this.categoryService = dependencies.CategoryService;
         this.clientService = dependencies.ClientService;
         this.movieService = dependencies.MovieService;
         this.tapeService = dependencies.TapeService;
     }
+
+
     createRoutes() {
         return {
             '/categories:get': async (request, response) => {
@@ -177,7 +196,8 @@ class App {
         return chosen(request, response);
     }
 
-    createServer(port = PORT) {
+    createServer(environment="produce", port = PORT) {
+        createDependencies(environment);
         const app = http
             .createServer(this.header.bind(this))
             .listen(port, () => console.log(`Listening on ${port}`));
