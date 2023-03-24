@@ -9,6 +9,7 @@ const SERVER_TEST_PORT = 3001;
 
 const mocks = {
     allCategories: require("../mocks/category/valid-all-categories.json"),
+    category: require("../mocks/category/valid-category.json"),
 }
 
 describe("API Suite test", () => {
@@ -84,9 +85,22 @@ describe("API Suite test", () => {
                 const expected = {
                     categories: mocks.allCategories
                 };
-                const response = await request(api.server)
+
+                await request(api.server)
                     .get(`/categories`)
                     .expect(expected.categories);
+
+            });
+
+            it('request category by id', async () => {
+                const expected = {
+                    category: mocks.category
+                };
+
+                await request(api.server)
+                    .get(`/category`)
+                    .query({ id: "97587e96-fa58-48d2-acb7-9f2b27a0064f" })
+                    .expect(expected.category);
 
             });
         });

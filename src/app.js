@@ -54,6 +54,12 @@ class App {
                 response.write(JSON.stringify(categories));
                 return response.end();
             },
+            '/category?id:get': async (request, response) => {
+                const { id } = request;
+                const category = await this.categoryService.getCategoryById(id);
+                response.write(JSON.stringify(category));
+                return response.end();
+            },
 
 
             default: async (request, response) => {
