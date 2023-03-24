@@ -10,11 +10,13 @@ const SERVER_TEST_PORT = 3001;
 const mocks = {
     allCategories: require("../mocks/category/valid-all-categories.json"),
     category: require("../mocks/category/valid-category.json"),
+    allClients: require("../mocks/client/valid-all-clients.json"),
+    client: require("../mocks/client/valid-client.json"),
 }
 
 describe("API Suite test", () => {
     let api = {};
-    let sandbox = {};
+    let sandbox = sinon.createSandbox();
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
@@ -101,6 +103,31 @@ describe("API Suite test", () => {
                     .get(`/category`)
                     .query({ id: "97587e96-fa58-48d2-acb7-9f2b27a0064f" })
                     .expect(expected.category);
+
+            });
+        });
+
+        describe('/clients', () => {
+            it('request all clients', async () => {
+                const expected = {
+                    clients: mocks.allClients
+                };
+
+                await request(api.server)
+                    .get(`/clients`)
+                    .expect(expected.clients);
+
+            });
+
+            it('request client by id', async () => {
+                const expected = {
+                    client: mocks.client
+                };
+
+                await request(api.server)
+                    .get(`/client`)
+                    .query({ id: "1f671f49-0e3f-442e-b764-f0a4222b5a3e" })
+                    .expect(expected.client);
 
             });
         });

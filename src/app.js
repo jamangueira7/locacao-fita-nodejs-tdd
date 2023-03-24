@@ -45,6 +45,7 @@ const createPokemonService = () => {
 class App {
     constructor(dependencies = createPokemonService()) {
         this.categoryService = dependencies.CategoryService;
+        this.clientService = dependencies.ClientService;
     }
     createRoutes() {
         return {
@@ -58,6 +59,19 @@ class App {
                 const { id } = request;
                 const category = await this.categoryService.getCategoryById(id);
                 response.write(JSON.stringify(category));
+                return response.end();
+            },
+
+            '/clients:get': async (request, response) => {
+
+                const clients = await this.clientService.getAllClients();
+                response.write(JSON.stringify(clients));
+                return response.end();
+            },
+            '/client?id:get': async (request, response) => {
+                const { id } = request;
+                const client = await this.clientService.getClientById(id);
+                response.write(JSON.stringify(client));
                 return response.end();
             },
 
