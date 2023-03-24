@@ -66,15 +66,15 @@ describe("API Suite test", () => {
 
         describe("/Default - 404", () => {
             it('request default routes return status 404', async () => {
-                const response = await request(api.server)
+                await request(api.server)
                     .get('/')
                     .expect(404);
             });
 
             it('request default routes return default test', async () => {
-                const expected = { msg: '404 - Essa rota não existe, tente acessar a rota /team para retornar dados.' };
+                const expected = { msg: '404 - Essa rota não existe.' };
 
-                const response = await request(api.server)
+                await request(api.server)
                     .get('/')
                     .expect(expected);
             });

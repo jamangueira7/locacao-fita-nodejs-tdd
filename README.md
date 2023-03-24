@@ -35,10 +35,33 @@ Na criação do banco com as seeds eu usei nomes fakes. Por exemplo as categoria
 
 - **`GET /`**: Rota default
 
-Retorna:826166
+Retorna:
 ```
 {
-    msg: 'Hello World!'
+    msg: "404 - Essa rota não existe."
+}
+```
+
+- **`GET /categories`**: Rota para retornar todas as categorias
+
+Retorna:
+```
+{
+    [
+        {"id":"97587e96-fa58-48d2-acb7-9f2b27a0064f","name":"analog"},
+        {"id":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9","name":"overlook"},
+        {"id":"42153792-2d54-4159-99e6-d09b0c419b2f", "name":"Baby"},
+        {"id":"06a7b337-18dc-4690-a12-911b01937376","name":"recklessly"}
+    ]
+}
+```
+
+- **`GET /category?id`**: Rota para retornar categoria por ID
+
+Retorna:
+```
+{
+    {"id":"97587e96-fa58-48d2-acb7-9f2b27a0064f","name":"analog"}
 }
 ```
 

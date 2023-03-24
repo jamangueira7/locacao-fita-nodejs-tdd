@@ -64,7 +64,7 @@ class App {
 
             default: async (request, response) => {
                 response.writeHead(404, DEFAULT_HEADER);
-                response.write(JSON.stringify({ msg: '404 - Essa rota não existe, tente acessar a rota /team para retornar dados.' }));
+                response.write(JSON.stringify({ msg: "404 - Essa rota não existe." }));
                 return response.end();
             }
         }
