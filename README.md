@@ -115,6 +115,89 @@ Retorna:
 }
 ```
 
+- **`GET /tapes`**: Rota para retornar todas as fitas
+
+Retorna:
+```
+{
+    [
+       {
+          "id":"3f651fb7-aa33-4d3a-ba7a-6178d7a1df36",
+          "color":"lime",
+          "movieId":"a6e634fd-1c79-4062-9d4b-61ead6cf2b8c"
+       },
+       {
+          "id":"404c8449-ba84-45ae-b0cc-f1c182e1be9f",
+          "color":"white",
+          "movieId":"0bac0382-9823-4450-b3ad-e573e0c40f74"
+       },
+       {
+          "id":"9593311a-080e-46ad-8f0b-0433f1dabd94",
+          "color":"red",
+          "movieId":"fda3e16a-2e6e-41fb-8368-3dba38372eda"
+       }
+    ]
+}
+```
+
+- **`GET /tape?id`**: Rota para retornar fita por ID
+
+Retorna:
+```
+{
+   "id":"150e9058-0281-4608-bcf4-98fa7aecdfcc",
+   "color":"magenta",
+   "movieId":"e515aaae-ffc5-4e90-9c5a-f1f6ceeca79d"
+}
+```
+
+- **`GET /tape?color`**: Rota para retornar fita por cor
+
+Retorna:
+```
+{
+   "id":"150e9058-0281-4608-bcf4-98fa7aecdfcc",
+   "color":"magenta",
+   "movieId":"e515aaae-ffc5-4e90-9c5a-f1f6ceeca79d"
+}
+```
+
+- **`GET /tape?moveId`**: Rota para retornar fita por movieID
+
+Retorna:
+```
+{
+    [
+       {
+          "id":"3f651fb7-aa33-4d3a-ba7a-6178d7a1df36",
+          "color":"lime",
+          "movieId":"a6e634fd-1c79-4062-9d4b-61ead6cf2b8c"
+       },
+       {
+          "id":"d937e217-f7e3-45ef-8933-babcd079102b",
+          "color":"gold",
+          "movieId":"a6e634fd-1c79-4062-9d4b-61ead6cf2b8c"
+       },
+       {
+          "id":"a7aef042-5810-4323-881e-731ad7f98743",
+          "color":"cyan",
+          "movieId":"a6e634fd-1c79-4062-9d4b-61ead6cf2b8c"
+       }
+    ]
+}
+```
+
+- **`GET /tape/random?moveId`**: Rota para retornar fita aleatoria por movieID
+
+Retorna:
+```
+{
+  "id":"d937e217-f7e3-45ef-8933-babcd079102b",
+  "color":"gold",
+  "movieId":"a6e634fd-1c79-4062-9d4b-61ead6cf2b8c"
+}
+```
+
 ## 📖 Story: Alugar uma fita
 
 #### Caso de Uso 01
