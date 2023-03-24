@@ -48,10 +48,22 @@ Retorna:
 ```
 {
     [
-        {"id":"97587e96-fa58-48d2-acb7-9f2b27a0064f","name":"analog"},
-        {"id":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9","name":"overlook"},
-        {"id":"42153792-2d54-4159-99e6-d09b0c419b2f", "name":"Baby"},
-        {"id":"06a7b337-18dc-4690-a12-911b01937376","name":"recklessly"}
+       {
+          "id":"97587e96-fa58-48d2-acb7-9f2b27a0064f",
+          "name":"analog"
+       },
+       {
+          "id":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+          "name":"overlook"
+       },
+       {
+          "id":"42153792-2d54-4159-99e6-d09b0c419b2f",
+          "name":"Baby"
+       },
+       {
+          "id":"06a7b337-18dc-4690-a12-911b01937376",
+          "name":"recklessly"
+       }
     ]
 }
 ```
@@ -61,7 +73,45 @@ Retorna:
 Retorna:
 ```
 {
-    {"id":"97587e96-fa58-48d2-acb7-9f2b27a0064f","name":"analog"}
+   "id":"97587e96-fa58-48d2-acb7-9f2b27a0064f",
+   "name":"analog"
+}
+```
+
+- **`GET /clients`**: Rota para retornar todos os clientes
+
+Retorna:
+```
+{
+    [
+       {
+          "id":"c90f803b-03b7-4754-89d9-bc0bcad9cd95",
+          "name":"Jeannie Hauck",
+          "birthDate":"2004-06-09T02:28:28.084Z",
+          "address":"Dave Expressway, 98911 Asheville = UT",
+          "gender":"female"
+       },
+       {
+          "id":"8591436b-669b-4d4e-a58d-ebef5753383f",
+          "name":"Mr. Natalie Kuhlman",
+          "birthDate":"2000-10-04T19:13:55.534Z",
+          "address":"Mraz Lake, 0289 Hesperia = AZ",
+          "gender":"male"
+       }
+    ]
+}
+```
+
+- **`GET /client?id`**: Rota para retornar cliente por ID
+
+Retorna:
+```
+{
+   "id":"1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+   "name":"Estelle Pacocha",
+   "birthDate":"2002-09-07T13:17:48.098Z",
+   "address":"Dickens Mall, 9551 Georgetown = IN",
+   "gender":"male"
 }
 ```
 
