@@ -12,6 +12,8 @@ const mocks = {
     category: require("../mocks/category/valid-category.json"),
     allClients: require("../mocks/client/valid-all-clients.json"),
     client: require("../mocks/client/valid-client.json"),
+    allTapes: require("../mocks/tape/valid-all-tapes.json"),
+    tape: require("../mocks/tape/valid-tape.json"),
 }
 
 describe("API Suite test", () => {
@@ -128,6 +130,31 @@ describe("API Suite test", () => {
                     .get(`/client`)
                     .query({ id: "1f671f49-0e3f-442e-b764-f0a4222b5a3e" })
                     .expect(expected.client);
+
+            });
+        });
+
+        describe('/tapes', () => {
+            it('request all tales', async () => {
+                const expected = {
+                    tapes: mocks.allTapes
+                };
+
+                await request(api.server)
+                    .get(`/tapes`)
+                    .expect(expected.tapes);
+
+            });
+
+            it('request tape by id', async () => {
+                const expected = {
+                    tape: mocks.tape
+                };
+
+                await request(api.server)
+                    .get(`/tape`)
+                    .query({ id: "150e9058-0281-4608-bcf4-98fa7aecdfcc" })
+                    .expect(expected.tape);
 
             });
         });

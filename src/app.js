@@ -46,6 +46,7 @@ class App {
     constructor(dependencies = createPokemonService()) {
         this.categoryService = dependencies.CategoryService;
         this.clientService = dependencies.ClientService;
+        this.tapeService = dependencies.TapeService;
     }
     createRoutes() {
         return {
@@ -72,6 +73,19 @@ class App {
                 const { id } = request;
                 const client = await this.clientService.getClientById(id);
                 response.write(JSON.stringify(client));
+                return response.end();
+            },
+
+            '/tapes:get': async (request, response) => {
+
+                const tapes = await this.tapeService.getAllTapes();
+                response.write(JSON.stringify(tapes));
+                return response.end();
+            },
+            '/tape?id:get': async (request, response) => {
+                const { id } = request;
+                const tape = await this.tapeService.getTapeById(id);
+                response.write(JSON.stringify(tape));
                 return response.end();
             },
 
