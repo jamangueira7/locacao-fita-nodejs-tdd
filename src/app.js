@@ -132,7 +132,6 @@ class App {
                 response.write(JSON.stringify(movies));
                 return response.end();
             },
-
             '/movie?years:get': async (request, response) => {
                 const { id: years } = request;
                 const [init, end ] = years.split("-");
@@ -140,14 +139,12 @@ class App {
                 response.write(JSON.stringify(movies));
                 return response.end();
             },
-
             '/movie?name:get': async (request, response) => {
                 const { id: part } = request;
                 const movies = await this.movieService.getMoviesThatHaveThatWordInTheName(part);
                 response.write(JSON.stringify(movies));
                 return response.end();
             },
-
             '/movie?description:get': async (request, response) => {
                 const { id: part } = request;
                 const movies = await this.movieService.getMoviesThatHaveThatWordInTheDescription(part);

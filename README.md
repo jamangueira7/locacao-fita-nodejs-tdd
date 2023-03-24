@@ -198,6 +198,198 @@ Retorna:
 }
 ```
 
+- **`GET /moveis`**: Rota para retornar todos os filmes
+
+Retorna:
+```
+{
+    [
+       {
+          "id":"22ac54f3-77a7-4dbc-80fe-2c695a0f48ca",
+          "name":"talkative driver blanditiis index solidly",
+          "description":"Goodyear customized Architect Sports Program kelvin Total redundant Tunnel withdrawal",
+          "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+          "year":2002,
+          "classification":0
+       },
+       {
+          "id":"7e5c8719-313f-445b-83d9-21d1ecf78b91",
+          "name":"motivating Pants Neon squiggly compelling",
+          "description":"up Passenger white Borders Sioux partially white unexpectedly Central drive",
+          "categoryId":"06a7b337-18dc-4690-a12b-911b01937376",
+          "year":1977,
+          "classification":0
+       },
+       {
+          "id":"e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+          "name":"asynchronous or South for more",
+          "description":"female Cisgender optical Skyway optimize Analyst tepid empower not invoice",
+          "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+          "year":1956,
+          "classification":18
+       },
+       {
+          "id":"ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+          "name":"Southwest which Berkshire Toyota untimely",
+          "description":"Bicycle quod Delaware Southeast Sunrise actuating Lead Southwest up Female",
+          "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+          "year":1979,
+          "classification":16
+       }
+    ]
+}
+```
+
+- **`GET /movie?id`**: Rota para retornar filme por ID
+
+Retorna:
+```
+{
+   "id":"8186123a-aaa3-414e-a1f6-8888e2cee196",
+   "name":"female Bespoke Executive Cambridgeshire urge",
+   "description":"Israeli concept provided woman structure Sports Place programming loom leverage",
+   "categoryId":"42153792-2d54-4159-99e6-d09b0c419b2f",
+   "year":1987,
+   "classification":16
+}
+```
+
+- **`GET /movie?categoryId`**: Rota para retornar filme por categoryId
+
+Retorna:
+```
+[
+   {
+      "id":"22ac54f3-77a7-4dbc-80fe-2c695a0f48ca",
+      "name":"talkative driver blanditiis index solidly",
+      "description":"Goodyear customized Architect Sports Program kelvin Total redundant Tunnel withdrawal",
+      "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+      "year":2002,
+      "classification":0
+   },
+   {
+      "id":"e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+      "name":"asynchronous or South for more",
+      "description":"female Cisgender optical Skyway optimize Analyst tepid empower not invoice",
+      "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+      "year":1956,
+      "classification":18
+   }
+]
+```
+
+- **`GET /movie?classification`**: Rota para retornar filme por classificação indicativa
+
+Retorna:
+```
+[
+   {
+      "id":"53937ec5-7c09-40af-af96-c9a4ff1f19df",
+      "name":"Stanford cohesive Hybrid program frantically",
+      "description":"Luxurious withdrawal experiences payment Chrysler red Country transmitter gadzooks Kids",
+      "categoryId":"06a7b337-18dc-4690-a12b-911b01937376",
+      "year":1980,
+      "classification":12
+   },
+   {
+      "id":"8c13f2b6-3947-41b9-8264-f19f6f88a4c5",
+      "name":"explicit bypass midst synthesizing 1080p",
+      "description":"Diesel Montana East Ferrari Blues Northeast SMTP Evanston male Card",
+      "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+      "year":1987,
+      "classification":12
+   },
+   {
+      "id":"e515aaae-ffc5-4e90-9c5a-f1f6ceeca79d",
+      "name":"eos Devolved Electric Frozen yahoo",
+      "description":"Northwest Tanzania for wireless enterprise whereas male mindless fooey model",
+      "categoryId":"06a7b337-18dc-4690-a12b-911b01937376",
+      "year":2002,
+      "classification":12
+   },
+   {
+      "id":"fbd8877a-470f-434d-8c17-db8638078b2e",
+      "name":"withdrawal hacking second Forint Beauty",
+      "description":"indigo Minnesota Bicycle back Southeast villainous error matrix Human North",
+      "categoryId":"97587e96-fa58-48d2-acb7-9f2b27a0064f",
+      "year":2017,
+      "classification":12
+   }
+]
+```
+
+- **`GET /movie?years`**: Rota para retornar filme por classificação indicativa (formato years=1997-2010)
+
+Retorna:
+```
+[
+   {
+      "id":"22ac54f3-77a7-4dbc-80fe-2c695a0f48ca",
+      "name":"talkative driver blanditiis index solidly",
+      "description":"Goodyear customized Architect Sports Program kelvin Total redundant Tunnel withdrawal",
+      "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+      "year":2002,
+      "classification":0
+   },
+   {
+      "id":"9fdecb96-bbec-46f7-bfc3-ded2ac16d54b",
+      "name":"Palladium Operations Director Fresh Administrator",
+      "description":"Pound Northeast throughout sequence hm radian excepturi wireless Dominican orange",
+      "categoryId":"06a7b337-18dc-4690-a12b-911b01937376",
+      "year":2009,
+      "classification":16
+   }
+]
+```
+
+- **`GET /movie?name`**: Rota para retornar filmes por uma parte do nome
+
+Retorna:
+```
+[
+   {
+      "id":"e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+      "name":"asynchronous or South for more",
+      "description":"female Cisgender optical Skyway optimize Analyst tepid empower not invoice",
+      "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+      "year":1956,
+      "classification":18
+   },
+   {
+      "id":"ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+      "name":"Southwest which Berkshire Toyota untimely",
+      "description":"Bicycle quod Delaware Southeast Sunrise actuating Lead Southwest up Female",
+      "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+      "year":1979,
+      "classification":16
+   }
+]
+```
+
+- **`GET /description?name`**: Rota para retornar filmes por uma parte da descrição
+
+Retorna:
+```
+[
+   {
+      "id":"ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+      "name":"Southwest which Berkshire Toyota untimely",
+      "description":"Bicycle quod Delaware Southeast Sunrise actuating Lead Southwest up Female",
+      "categoryId":"ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+      "year":1979,
+      "classification":16
+   },
+   {
+      "id":"8021a7c6-6bd9-44fa-a8cb-3ad6e60c35d8",
+      "name":"implement World calculate char dynamic",
+      "description":"South Card West Northeast Copper twine nor Quality navigating yellow",
+      "categoryId":"42153792-2d54-4159-99e6-d09b0c419b2f",
+      "year":2001,
+      "classification":16
+   }
+]
+```
+
 ## 📖 Story: Alugar uma fita
 
 #### Caso de Uso 01
