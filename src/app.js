@@ -89,6 +89,27 @@ class App {
                 return response.end();
             },
 
+            '/tape?color:get': async (request, response) => {
+                const { id: color } = request;
+                const tape = await this.tapeService.getAllTapesByColor(color);
+                response.write(JSON.stringify(tape));
+                return response.end();
+            },
+
+            '/tape/random?movieId:get': async (request, response) => {
+                const { id: movieId } = request;
+                const tape = await this.tapeService.getRandomTapeByMovieId(movieId);
+                response.write(JSON.stringify(tape));
+                return response.end();
+            },
+
+            '/tape?movieId:get': async (request, response) => {
+                const { id: movieId } = request;
+                const tape = await this.tapeService.getAllTapesByMovieId(movieId);
+                response.write(JSON.stringify(tape));
+                return response.end();
+            },
+
 
             default: async (request, response) => {
                 response.writeHead(404, DEFAULT_HEADER);

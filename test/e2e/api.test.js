@@ -14,6 +14,9 @@ const mocks = {
     client: require("../mocks/client/valid-client.json"),
     allTapes: require("../mocks/tape/valid-all-tapes.json"),
     tape: require("../mocks/tape/valid-tape.json"),
+    allTapeByColor: require("../mocks/tape/valid-all-tapes-by-color.json"),
+    allTapeByMovieId: require("../mocks/tape/valid-all-tapes-by-movieid.json"),
+    randomTapeByMovieId: require("../mocks/tape/valid-random-tape.json"),
 }
 
 describe("API Suite test", () => {
@@ -157,6 +160,44 @@ describe("API Suite test", () => {
                     .expect(expected.tape);
 
             });
+
+            it('request tape by color', async () => {
+                const expected = {
+                    tape: mocks.allTapeByColor
+                };
+
+                await request(api.server)
+                    .get(`/tape`)
+                    .query({ color: "green" })
+                    .expect(expected.tape);
+
+            });
+
+            it('request tape by moveId', async () => {
+                const expected = {
+                    tape: mocks.allTapeByMovieId
+                };
+
+                await request(api.server)
+                    .get(`/tape`)
+                    .query({ movieId: "a6e634fd-1c79-4062-9d4b-61ead6cf2b8c" })
+                    .expect(expected.tape);
+
+            });
+
+            it('request random tape by moveId', async () => {
+                const expected = {
+                    tape: mocks.randomTapeByMovieId
+                };
+
+                await request(api.server)
+                    .get(`/tape/random`)
+                    .query({ movieId: "a6e634fd-1c79-4062-9d4b-61ead6cf2b8c" })
+                    .expect(expected.tape);
+
+            });
+
+
         });
     });
 });
