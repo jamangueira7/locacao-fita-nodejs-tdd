@@ -17,6 +17,13 @@ const mocks = {
     allTapeByColor: require("../mocks/tape/valid-all-tapes-by-color.json"),
     allTapeByMovieId: require("../mocks/tape/valid-all-tapes-by-movieid.json"),
     randomTapeByMovieId: require("../mocks/tape/valid-random-tape.json"),
+    allMovies: require("../mocks/movie/valid-all-movies.json"),
+    movie: require("../mocks/movie/valid-movie.json"),
+    moviesByCategory: require("../mocks/movie/valid-all-movies-by-category.json"),
+    moviesByClassification: require("../mocks/movie/valid-all-movies-by-classification-12.json"),
+    moviesByRange: require("../mocks/movie/valid-all-movies-range-1997-2010.json"),
+    moviesByPartOfName: require("../mocks/movie/valid-all-movies-by-part-of-name.json"),
+    moviesByPartOfDesc: require("../mocks/movie/valid-all-movies-by-part-of-description.json"),
 }
 
 describe("API Suite test", () => {
@@ -190,14 +197,108 @@ describe("API Suite test", () => {
                     tape: mocks.randomTapeByMovieId
                 };
 
+                sandbox
+                    .stub(api.instance.tapeService, "getRandomTapeByMovieId")
+                    .resolves(expected.tape)
+
                 await request(api.server)
                     .get(`/tape/random`)
                     .query({ movieId: "a6e634fd-1c79-4062-9d4b-61ead6cf2b8c" })
                     .expect(expected.tape);
 
             });
+        });
 
+        describe('/movies', () => {
+            it('request all movies', async () => {
+                const expected = {
+                    movies: mocks.allMovies
+                };
 
+                await request(api.server)
+                    .get(`/movies`)
+                    .expect(expected.movies);
+
+            });
+
+            it('request movie by id', async () => {
+                const expected = {
+                    movie: mocks.movie
+                };
+
+                await request(api.server)
+                    .get(`/movie`)
+                    .query({ id: "8186123a-aaa3-414e-a1f6-8888e2cee196" })
+                    .expect(expected.movie);
+
+            });
+
+            it('request movie by categoryId', async () => {
+                const expected = {
+                    movie: mocks.moviesByCategory
+                };
+
+                await request(api.server)
+                    .get(`/movie`)
+                    .query({ categoryId: "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9" })
+                    .expect(expected.movie);
+
+            });
+
+            it('request movie by classification', async () => {
+                const expected = {
+                    movie: mocks.moviesByClassification
+                };
+
+                await request(api.server)
+                    .get(`/movie`)
+                    .query({ classification: 12 })
+                    .expect(expected.movie);
+
+            });
+
+            it('request all movies major 1997 and minor 2010', async () => {
+                const expected = {
+                    movie: mocks.moviesByRange
+                };
+
+                const init = 1997;
+                const end = 2010;
+
+                await request(api.server)
+                    .get(`/movie`)
+                    .query({ years: `${init}-${end}` })
+                    .expect(expected.movie);
+
+            });
+
+            it('request all movies that have that word in the name', async () => {
+                const expected = {
+                    movie: mocks.moviesByPartOfName
+                };
+
+                const part = "South";
+
+                await request(api.server)
+                    .get(`/movie`)
+                    .query({ name: part })
+                    .expect(expected.movie);
+
+            });
+
+            it('request all movies that have that word in the description', async () => {
+                const expected = {
+                    movie: mocks.moviesByPartOfDesc
+                };
+
+                const part = "South";
+
+                await request(api.server)
+                    .get(`/movie`)
+                    .query({ description: part })
+                    .expect(expected.movie);
+
+            });
         });
     });
 });

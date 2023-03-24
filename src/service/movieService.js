@@ -27,9 +27,9 @@ class MovieService {
         return result;
     }
 
-    async getMoviesByClassification(classification) {
+    async getMoviesByClassification(classification_param) {
         const movies = await this.repository.all();
-        const result = await movies.filter(({ classification }) => classification === classification);
+        const result = await movies.filter(({ classification }) => classification === parseInt(classification_param));
         return result;
     }
 

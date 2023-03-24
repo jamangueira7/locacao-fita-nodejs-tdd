@@ -46,6 +46,7 @@ class App {
     constructor(dependencies = createPokemonService()) {
         this.categoryService = dependencies.CategoryService;
         this.clientService = dependencies.ClientService;
+        this.movieService = dependencies.MovieService;
         this.tapeService = dependencies.TapeService;
     }
     createRoutes() {
@@ -88,21 +89,18 @@ class App {
                 response.write(JSON.stringify(tape));
                 return response.end();
             },
-
             '/tape?color:get': async (request, response) => {
                 const { id: color } = request;
                 const tape = await this.tapeService.getAllTapesByColor(color);
                 response.write(JSON.stringify(tape));
                 return response.end();
             },
-
             '/tape/random?movieId:get': async (request, response) => {
                 const { id: movieId } = request;
                 const tape = await this.tapeService.getRandomTapeByMovieId(movieId);
                 response.write(JSON.stringify(tape));
                 return response.end();
             },
-
             '/tape?movieId:get': async (request, response) => {
                 const { id: movieId } = request;
                 const tape = await this.tapeService.getAllTapesByMovieId(movieId);
@@ -110,6 +108,52 @@ class App {
                 return response.end();
             },
 
+            '/movies:get': async (request, response) => {
+
+                const movies = await this.movieService.getAllMovies();
+                response.write(JSON.stringify(movies));
+                return response.end();
+            },
+            '/movie?id:get': async (request, response) => {
+                const { id } = request;
+                const movie = await this.movieService.getMovieById(id);
+                response.write(JSON.stringify(movie));
+                return response.end();
+            },
+            '/movie?categoryId:get': async (request, response) => {
+                const { id: categoryId } = request;
+                const movie = await this.movieService.getAllMoviesByCategoryId(categoryId);
+                response.write(JSON.stringify(movie));
+                return response.end();
+            },
+            '/movie?classification:get': async (request, response) => {
+                const { id: classification } = request;
+                const movies = await this.movieService.getMoviesByClassification(classification);
+                response.write(JSON.stringify(movies));
+                return response.end();
+            },
+
+            '/movie?years:get': async (request, response) => {
+                const { id: years } = request;
+                const [init, end ] = years.split("-");
+                const movies = await this.movieService.getMoviesByTimeRange(init, end);
+                response.write(JSON.stringify(movies));
+                return response.end();
+            },
+
+            '/movie?name:get': async (request, response) => {
+                const { id: part } = request;
+                const movies = await this.movieService.getMoviesThatHaveThatWordInTheName(part);
+                response.write(JSON.stringify(movies));
+                return response.end();
+            },
+
+            '/movie?description:get': async (request, response) => {
+                const { id: part } = request;
+                const movies = await this.movieService.getMoviesThatHaveThatWordInTheDescription(part);
+                response.write(JSON.stringify(movies));
+                return response.end();
+            },
 
             default: async (request, response) => {
                 response.writeHead(404, DEFAULT_HEADER);
