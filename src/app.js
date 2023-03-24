@@ -1,4 +1,5 @@
 const http = require('http');
+const { join } = require('path');
 
 const CategoryRepository = require("./repository/categoryRepository");
 const ClientRepository = require("./repository/clientRepository");
@@ -12,6 +13,11 @@ const MovieService = require("./service/movieService");
 const TapeService = require("./service/tapeService");
 const RentalService = require("./service/rentalService");
 
+const dbCategory = join(__dirname, '../database', "categories.json");
+const dbClient = join(__dirname, '../database', "clients.json");
+const dbMovies = join(__dirname, '../database', "movies.json");
+const dbTapes = join(__dirname, '../database', "tapes.json");
+
 const PORT = 3000;
 const DEFAULT_HEADER = { 'Content-Type' : 'application/json' };
 
@@ -21,6 +27,12 @@ const createPokemonService = () => {
     const movieRepository = new MovieRepository();
     const tapeRepository = new TapeRepository();
     const rentalRepository = new RentalRepository();
+
+    categoryRepository.init({ file: dbCategory });
+    clientRepository.init({ file: dbClient });
+    movieRepository.init({ file: dbMovies});
+    tapeRepository.init({ file: dbTapes});
+    //rentalRepository.init({ file: });
 
     return {
         CategoryService: new CategoryService({ repository: categoryRepository }),
@@ -32,19 +44,21 @@ const createPokemonService = () => {
 }
 class App {
     constructor(dependencies = createPokemonService()) {
-        this.pokemonService = dependencies.PokemonService;
+        this.categoryService = dependencies.CategoryService;
     }
     createRoutes() {
         return {
-            '/category:get': async (request, response) => {
+            '/categories:get': async (request, response) => {
 
-                const team = await this.pokemonService.getTeam();
-                response.write(JSON.stringify({ team }));
+                const categories = await this.categoryService.getAllCategory();
+                response.write(JSON.stringify(categories));
                 return response.end();
             },
 
+
             default: async (request, response) => {
-                response.write(JSON.stringify({ msg: 'Essa rota não existe, tente acessar a rota /team para retornar dados.' }));
+                response.writeHead(404, DEFAULT_HEADER);
+                response.write(JSON.stringify({ msg: '404 - Essa rota não existe, tente acessar a rota /team para retornar dados.' }));
                 return response.end();
             }
         }

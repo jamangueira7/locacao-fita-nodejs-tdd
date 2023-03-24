@@ -35,7 +35,7 @@ Na criação do banco com as seeds eu usei nomes fakes. Por exemplo as categoria
 
 - **`GET /`**: Rota default
 
-Retorna:
+Retorna:826166
 ```
 {
     msg: 'Hello World!'

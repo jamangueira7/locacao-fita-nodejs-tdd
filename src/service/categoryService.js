@@ -10,7 +10,7 @@ class CategoryService {
         return category;
     }
 
-    async getAllCategory(id) {
+    async getAllCategory() {
         const categories = await this.repository.all();
         return categories;
     }
