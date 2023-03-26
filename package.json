@@ -18,5 +18,8 @@
     "nyc": "^15.1.0",
     "sinon": "^9.2.4",
     "supertest": "^6.3.3"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
   }
 }
