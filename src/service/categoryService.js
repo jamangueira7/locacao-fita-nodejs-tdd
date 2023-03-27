@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const Category = require("../entities/category");
+
 class CategoryService {
     constructor({ repository }) {
         this.repository = repository;
@@ -37,7 +38,7 @@ class CategoryService {
         }
     }
 
-    async updateCategory(category_param) {
+    async changeCategory(category_param) {
         try {
             if(
                 !category_param.id

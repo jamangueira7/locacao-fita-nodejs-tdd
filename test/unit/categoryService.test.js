@@ -107,7 +107,7 @@ describe('CategoryService Suite Tests', () => {
 
         const expected = { error: "Field id is required" };
 
-        const result = await categoryService.updateCategory(new_category);
+        const result = await categoryService.changeCategory(new_category);
 
         expect(result).to.eql(expected);
 
@@ -118,9 +118,9 @@ describe('CategoryService Suite Tests', () => {
             "name": ""
         }
 
-        const expected = { error: "Field name is required" };
+        const expected = { error: "Field id is required" };
 
-        const result = await categoryService.createCategory(new_category);
+        const result = await categoryService.changeCategory(new_category);
 
         expect(result).to.eql(expected);
 
@@ -132,7 +132,7 @@ describe('CategoryService Suite Tests', () => {
             "name": "update"
         }
 
-        let result = await categoryService.updateCategory(expected);
+        let result = await categoryService.changeCategory(expected);
         result = JSON.parse(result);
 
         expect(result).to.eql(expected);
@@ -148,7 +148,7 @@ describe('CategoryService Suite Tests', () => {
 
         const expected = { error: "Category does not exist" };
 
-        let result = await categoryService.updateCategory(param);
+        let result = await categoryService.changeCategory(param);
 
         expect(result).to.eql(expected);
     });
