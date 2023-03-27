@@ -13,7 +13,7 @@ class BaseRepository {
         const data = this.file.find(({ id }) => id === id_param);
 
         if(!data) {
-            return {}
+            return;
         }
         return data
     }

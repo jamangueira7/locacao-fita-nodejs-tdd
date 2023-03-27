@@ -6,8 +6,10 @@ const { expect } = require('chai');
 
 const TapeService = require('./../../src/service/tapeService');
 const TapeRepository = require('./../../src/repository/tapeRepository');
+const MovieRepository = require('./../../src/repository/movieRepository');
 
 const tapeDatabase  = join(__dirname, './../../database', "tapes.json");
+const movieDatabase  = join(__dirname, './../../database', "movies.json");
 
 const mocks = {
     validTape: require('./../mocks/tape/valid-tape.json'),
@@ -17,9 +19,10 @@ const mocks = {
     validRandomTape: require('./../mocks/tape/valid-random-tape.json'),
 };
 
-
 tapeRepository = new TapeRepository();
 tapeRepository.init({ file: tapeDatabase }, "tapes_test.json");
+movieRepository = new MovieRepository();
+movieRepository.init({ file: movieDatabase }, "movies_test.json");
 
 
 const mockRepositoryGetTapeById = sinon.stub(tapeRepository, 'find');
@@ -35,7 +38,8 @@ describe('TapeService Suite Tests', () => {
 
     before(() => {
         tapeService = new TapeService({
-            repository: tapeRepository
+            repository: tapeRepository,
+            movieRepository: movieRepository
         });
     });
 
@@ -88,6 +92,82 @@ describe('TapeService Suite Tests', () => {
         const expected = mocks.validRandomTape;
 
         const result = await tapeService.getRandomTapeByMovieId(id);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should by error empty field name with a create new tape ', async () => {
+        const new_tape = {
+            "color": ""
+        }
+
+        const expected = { error: "Field color is required" };
+
+        const result = await tapeService.createTape(new_tape);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should by error undefined field name with a create new tape ', async () => {
+        const new_tape = {
+            "id": ""
+        }
+
+        const expected = { error: "Field color is required" };
+
+        const result = await tapeService.createTape(new_tape);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should by error empty field movieId with a create new tape ', async () => {
+        const new_tape = {
+            "color": "green",
+        }
+
+        const expected = { error: "Field movieId is required" };
+
+        const result = await tapeService.createTape(new_tape);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should by error undefined movieId name with a create new tape ', async () => {
+        const new_tape = {
+            "color": "green",
+            "movieId": ""
+        }
+
+        const expected = { error: "Field movieId is required" };
+
+        const result = await tapeService.createTape(new_tape);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should create a new tape ', async () => {
+        const expected = {
+            "color": "green",
+            "movieId": "22ac54f3-77a7-4dbc-80fe-2c695a0f48ca"
+        }
+
+        let result = await tapeService.createTape(expected);
+        result = JSON.parse(result);
+
+        expect(result.color).to.be.exist;
+        expect(result.color).to.eql(expected.color);
+        expect(result.movieId).to.be.exist;
+    });
+
+    it('should by error movie does not exist with a create new tape ', async () => {
+        const new_tape = {
+            "color": "green",
+            "movieId": "22ac54f3-ffff-ffff-80fe-2c695a0f48ca"
+        }
+
+        const expected = { error: "Movie does not exist" };
+
+        const result = await tapeService.createTape(new_tape);
 
         expect(result).to.eql(expected);
     });

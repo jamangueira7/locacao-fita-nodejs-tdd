@@ -1,10 +1,10 @@
 const {v4: uuidv4} = require("uuid");
-const TapeRepository = require('./../repository/tapeRepository');
 const Tape = require("../entities/tape");
 
 class TapeService {
-    constructor({ repository }) {
+    constructor({ repository, movieRepository }) {
         this.repository = repository;
+        this.movieRepository = movieRepository;
     }
 
     async getTapeById(id) {
@@ -57,10 +57,15 @@ class TapeService {
                 throw new Error("Field movieId is required");
             }
 
+            const movie = await this.movieRepository.find(new_tape.movieId.toString());
+            if(!movie) {
+                throw new Error("Movie does not exist");
+            }
+
             const tape = new Tape({
                 id: uuidv4(),
-                color: new_category.color,
-                movieId: new_category.movieId
+                color: new_tape.color,
+                movieId: new_tape.movieId
             });
 
             return await this.repository.create(tape);
