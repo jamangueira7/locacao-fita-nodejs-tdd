@@ -249,7 +249,6 @@ describe('ClientService Suite Tests', () => {
         expect(result).to.eql(expected);
     });
 
-
     it('should by update a client ', async () => {
         const client = {
             "id": "1f671f49-ffff-ffff-b764-f0a4222b5a3e",
