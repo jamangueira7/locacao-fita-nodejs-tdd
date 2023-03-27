@@ -19,9 +19,7 @@ const mocks = {
 
 
 tapeRepository = new TapeRepository();
-tapeRepository.init({
-    file: tapeDatabase
-});
+tapeRepository.init({ file: tapeDatabase }, "tapes_test.json");
 
 
 const mockRepositoryGetTapeById = sinon.stub(tapeRepository, 'find');
