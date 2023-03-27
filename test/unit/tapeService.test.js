@@ -157,6 +157,7 @@ describe('TapeService Suite Tests', () => {
         expect(result.color).to.be.exist;
         expect(result.color).to.eql(expected.color);
         expect(result.movieId).to.be.exist;
+        expect(result.movieId).to.eql(expected.movieId);
     });
 
     it('should by error movie does not exist with a create new tape ', async () => {
@@ -170,6 +171,39 @@ describe('TapeService Suite Tests', () => {
         const result = await tapeService.createTape(new_tape);
 
         expect(result).to.eql(expected);
+    });
+
+    it('should error by empty id with delete a tape', async () => {
+        const id = "";
+
+        const expected = { "error": "Field id is required" };
+
+        let result = await tapeService.deleteTape(id);
+
+        expect(result).to.eql(expected);
+
+    });
+
+    it('should delete a tape', async () => {
+        const id = "951ce87c-3a8e-401b-883b-55f9b038cd9e";
+
+        const expected = { msg: `Tape ${id} remove` };
+
+        let result = await tapeService.deleteTape(id);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should error by tape does not exist delete a tape', async () => {
+        mockRepositoryGetTapeById.resolves(null);
+        const id = "951ce87c-ffff-ffff-883b-55f9b038cd9e";
+
+        const expected = { "error": "Tape does not exist" };
+
+        let result = await tapeService.deleteTape(id);
+
+        expect(result).to.eql(expected);
+
     });
 });
 

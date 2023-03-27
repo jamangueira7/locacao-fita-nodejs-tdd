@@ -36,7 +36,6 @@ class TapeService {
         return result[tape_index];
     }
 
-
     async createTape(new_tape) {
         try {
             if(
@@ -69,6 +68,31 @@ class TapeService {
             });
 
             return await this.repository.create(tape);
+        } catch (err) {
+            return { error: err.message }
+        }
+    }
+
+    async deleteTape(id) {
+        try {
+            if(
+                !id
+                || id === "undefined"
+                || id === ""
+            ) {
+
+                throw new Error("Field id is required");
+            }
+
+            const old = await this.repository.find(id.toString());
+
+            if(!old) {
+                throw new Error("Tape does not exist");
+            }
+
+            await this.repository.delete(id);
+
+            return { msg: `Tape ${id} remove`}
         } catch (err) {
             return { error: err.message }
         }
