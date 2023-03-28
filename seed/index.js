@@ -10,6 +10,13 @@ const { writeFile } = require('fs/promises');
 
 const seederBaseFoder = join(__dirname, "../", "database");
 
+const mocks = {
+    allCategories: require("../test/mocks/category/valid-all-categories.json"),
+    allClients: require("../test/mocks/client/valid-all-clients.json"),
+    allTapes: require("../test/mocks/tape/valid-all-tapes.json"),
+    allMovies: require("../test/mocks/movie/valid-all-movies.json"),
+}
+
 const ITEMS_AMOUNT_CATEGORY = 3;
 const ITEMS_AMOUNT_MOVIE = 30;
 const ITEMS_AMOUNT_TAPE = 60;
@@ -79,7 +86,7 @@ const write = (filename, data) => writeFile(join(seederBaseFoder, filename), JSO
     await write('tapes.json', tapes);
 
     console.log('##################');
-    console.log('Creating  fakers');
+    console.log('Creating fakers');
     console.log('-----------------');
     console.log('categories', categories);
     console.log('-----------------');
@@ -88,4 +95,19 @@ const write = (filename, data) => writeFile(join(seederBaseFoder, filename), JSO
     console.log('clients', clients);
     console.log('-----------------');
     console.log('tapes', tapes);
+
+    console.log('##################');
+    console.log('Creating tests database');
+    console.log('-----------------');
+    console.log('categories_test', mocks.allCategories);
+    await write('categories_test.json', mocks.allCategories);
+    console.log('-----------------');
+    console.log('clients_test', mocks.allClients);
+    await write('clients_test.json', mocks.allClients);
+    console.log('-----------------');
+    console.log('movies_test', mocks.allMovies);
+    await write('movies_test.json', mocks.allMovies);
+    console.log('-----------------');
+    console.log('tapes_test', categories);
+    await write('tapes_test.json', mocks.allMovies);
 })();

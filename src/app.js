@@ -20,6 +20,7 @@ let dbTapes;
 
 const PORT = 3000;
 const DEFAULT_HEADER = { 'Content-Type' : 'application/json' };
+let ENVIRONMENT = "produce"
 
 const createService = () => {
     const categoryRepository = new CategoryRepository();
@@ -28,10 +29,15 @@ const createService = () => {
     const tapeRepository = new TapeRepository();
     const rentalRepository = new RentalRepository();
 
-    categoryRepository.init({ file: dbCategory });
-    clientRepository.init({ file: dbClient });
-    movieRepository.init({ file: dbMovies});
-    tapeRepository.init({ file: dbTapes});
+    const db_category_filename = ENVIRONMENT === "produce" ? "categories.json" : "categories_test.json";
+    const db_client_filename = ENVIRONMENT === "produce" ? "clients.json" : "clients_test.json";
+    const db_movie_filename = ENVIRONMENT === "produce" ? "movies.json" : "movies_test.json";
+    const db_tape_filename = ENVIRONMENT === "produce" ? "tapes.json" : "tapes_test.json";
+
+    categoryRepository.init({ file: dbCategory }, db_category_filename);
+    clientRepository.init({ file: dbClient }, db_client_filename);
+    movieRepository.init({ file: dbMovies}, db_movie_filename);
+    tapeRepository.init({ file: dbTapes}, db_tape_filename);
     //rentalRepository.init({ file: });
 
     return {
@@ -43,8 +49,9 @@ const createService = () => {
     }
 }
 
-const createDependencies = (enveroment) => {
-    if(enveroment === "produce") {
+const createDependencies = (environment) => {
+    ENVIRONMENT = environment;
+    if(environment === "produce") {
         dbCategory =  join(__dirname, '../database', "categories.json");
         dbClient = join(__dirname, '../database', "clients.json");
         dbMovies = join(__dirname, '../database', "movies.json");
@@ -80,6 +87,37 @@ class App {
                 const { id } = request;
                 const category = await this.categoryService.getCategoryById(id);
                 response.write(JSON.stringify(category));
+                return response.end();
+            },
+            '/category:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+
+                }
+
+                const category = await this.categoryService.createCategory(dataValue);
+                response.write(category);
+                return response.end();
+            },
+            '/category/change:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const category = await this.categoryService.changeCategory(dataValue);
+                response.write(category);
+                return response.end();
+            },
+            '/category/delete:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const category = await this.categoryService.deleteCategory(dataValue.id);
+                response.write(category);
                 return response.end();
             },
 

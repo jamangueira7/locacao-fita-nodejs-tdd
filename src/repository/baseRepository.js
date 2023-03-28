@@ -39,12 +39,11 @@ class BaseRepository {
 
     async delete(id_param) {
         const aux = await this.find(id_param.toString());
-
         const index = this.file.indexOf(aux);
         this.file.splice(index, 1);
-
         await writeFile(join(seederBaseFolder, this.filename), JSON.stringify(this.file));
-        return;
+
+        return true;
     }
 }
 

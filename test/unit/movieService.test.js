@@ -22,7 +22,7 @@ const mocks = {
 };
 
 categoryRepository = new CategoryRepository();
-categoryRepository.init({ file: categoryDatabase }, "category_test.json");
+categoryRepository.init({ file: categoryDatabase }, "categories_test.json");
 
 movieRepository = new MovieRepository();
 movieRepository.init({ file: movieDatabase }, "movies_test.json");

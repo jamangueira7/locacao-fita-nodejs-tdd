@@ -23,7 +23,6 @@ class CategoryService {
                 || new_category.name === "undefined"
                 || new_category.name === ""
             ) {
-
                 throw new Error("Field name is required");
             }
 
@@ -34,7 +33,7 @@ class CategoryService {
 
             return await this.repository.create(category);
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 
@@ -62,7 +61,7 @@ class CategoryService {
 
             return await this.repository.update(category);
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 
@@ -77,17 +76,17 @@ class CategoryService {
                 throw new Error("Field id is required");
             }
 
-            const old_category = await this.repository.find(id.toString());
+            const old = await this.repository.find(id.toString());
 
-            if(!old_category) {
+            if(!old) {
                 throw new Error("Category does not exist");
             }
 
             await this.repository.delete(id);
 
-            return { msg: `Category ${id} remove`}
+            return JSON.stringify({ msg: `Category ${id} remove`});
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 }

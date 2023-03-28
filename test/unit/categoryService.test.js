@@ -71,7 +71,7 @@ describe('CategoryService Suite Tests', () => {
 
         const result = await categoryService.createCategory(new_category);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -84,7 +84,7 @@ describe('CategoryService Suite Tests', () => {
 
         const result = await categoryService.createCategory(new_category);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -109,7 +109,7 @@ describe('CategoryService Suite Tests', () => {
 
         const result = await categoryService.changeCategory(new_category);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -122,7 +122,7 @@ describe('CategoryService Suite Tests', () => {
 
         const result = await categoryService.changeCategory(new_category);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -150,7 +150,7 @@ describe('CategoryService Suite Tests', () => {
 
         let result = await categoryService.changeCategory(param);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should delete a category', async () => {
@@ -162,7 +162,7 @@ describe('CategoryService Suite Tests', () => {
 
         let result = await categoryService.deleteCategory(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -175,7 +175,7 @@ describe('CategoryService Suite Tests', () => {
 
         let result = await categoryService.deleteCategory(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -188,7 +188,7 @@ describe('CategoryService Suite Tests', () => {
 
         let result = await categoryService.deleteCategory(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 });
