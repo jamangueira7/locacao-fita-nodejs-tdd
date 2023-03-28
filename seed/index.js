@@ -108,6 +108,6 @@ const write = (filename, data) => writeFile(join(seederBaseFoder, filename), JSO
     console.log('movies_test', mocks.allMovies);
     await write('movies_test.json', mocks.allMovies);
     console.log('-----------------');
-    console.log('tapes_test', categories);
-    await write('tapes_test.json', mocks.allMovies);
+    console.log('tapes_test', mocks.allTapes);
+    await write('tapes_test.json', mocks.allTapes);
 })();
