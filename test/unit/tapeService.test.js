@@ -8,8 +8,8 @@ const TapeService = require('./../../src/service/tapeService');
 const TapeRepository = require('./../../src/repository/tapeRepository');
 const MovieRepository = require('./../../src/repository/movieRepository');
 
-const tapeDatabase  = join(__dirname, './../../database', "tapes.json");
-const movieDatabase  = join(__dirname, './../../database', "movies.json");
+const tapeDatabase  = join(__dirname, './../../database', "tapes_test.json");
+const movieDatabase  = join(__dirname, './../../database', "movies_test.json");
 
 const mocks = {
     validTape: require('./../mocks/tape/valid-tape.json'),

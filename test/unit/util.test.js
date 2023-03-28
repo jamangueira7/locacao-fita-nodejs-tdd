@@ -3,21 +3,26 @@ const sinon = require('sinon');
 
 const { join } = require('path');
 const { expect } = require('chai');
+const { writeFile } = require('fs/promises');
 
 const Util = require('./../../src/util/util');
-
-const clientDatabase  = join(__dirname, './../../database', "clients.json");
 
 const mocks = {
     validAllClients: require('./../mocks/client/valid-all-clients.json'),
 };
 
+const seederBaseFoder = join(__dirname, "../../", "database");
+const write = (filename, data) => writeFile(join(seederBaseFoder, filename), JSON.stringify(data));
+
+const clientDatabase  = join(__dirname, './../../database', "clients_test.json");
+
 describe('Util Suite Tests', () => {
 
     let sandbox = {};
 
-    beforeEach(() => {
+    beforeEach(async () => {
         sandbox = sinon.createSandbox();
+        await write('clients_test.json', mocks.validAllClients);
     });
 
     afterEach(() => {

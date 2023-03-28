@@ -3,13 +3,11 @@ const sinon = require('sinon');
 
 const { join } = require('path');
 const { expect } = require('chai');
+const { writeFile } = require('fs/promises');
 
 const MovieService = require('./../../src/service/movieService');
 const MovieRepository = require('./../../src/repository/movieRepository');
 const CategoryRepository = require('./../../src/repository/categoryRepository');
-
-const movieDatabase  = join(__dirname, './../../database', "movies.json");
-const categoryDatabase  = join(__dirname, './../../database', "categories.json");
 
 const mocks = {
     validMovie: require('./../mocks/movie/valid-movie.json'),
@@ -21,12 +19,20 @@ const mocks = {
     validAllMoviesByPartOfDescription: require('../mocks/movie/valid-all-movies-by-part-of-description.json'),
 };
 
+(async (filename, data) => {
+    const seederBaseFoder = join(__dirname, "../../", "database");
+    await writeFile(join(seederBaseFoder, filename), JSON.stringify(data));
+})('movies_test.json', mocks.validAllMovies);
+
+const movieDatabase  = join(__dirname, './../../database', "movies_test.json");
+const categoryDatabase  = join(__dirname, './../../database', "categories_test.json");
+
 categoryRepository = new CategoryRepository();
+movieRepository = new MovieRepository();
+
 categoryRepository.init({ file: categoryDatabase }, "categories_test.json");
 
-movieRepository = new MovieRepository();
 movieRepository.init({ file: movieDatabase }, "movies_test.json");
-
 
 const mockRepositoryGetMovieById = sinon.stub(movieRepository, 'find');
 mockRepositoryGetMovieById.resolves(mocks.validMovie);
@@ -39,7 +45,7 @@ describe('MovieService Suite Tests', () => {
     let movieService = {};
     let sandbox = {};
 
-    before(() => {
+    before(async () => {
         movieService = new MovieService({
             repository: movieRepository,
             categoryRepository: categoryRepository,

@@ -3,17 +3,22 @@ const sinon = require('sinon');
 
 const { join } = require('path');
 const { expect } = require('chai');
+const { writeFile } = require('fs/promises');
 
 const ClientService = require('./../../src/service/clientService');
 const ClientRepository = require('./../../src/repository/clientRepository');
-
-const clientDatabase  = join(__dirname, './../../database', "clients.json");
 
 const mocks = {
     validClient: require('./../mocks/client/valid-client.json'),
     validAllClients: require('./../mocks/client/valid-all-clients.json'),
 };
 
+(async (filename, data) => {
+    const seederBaseFoder = join(__dirname, "../../", "database");
+    await writeFile(join(seederBaseFoder, filename), JSON.stringify(data));
+})('clients_test.json', mocks.validAllClients);
+
+const clientDatabase  = join(__dirname, './../../database', "clients_test.json");
 
 clientRepository = new ClientRepository();
 clientRepository.init({ file: clientDatabase }, "clients_test.json");
@@ -163,7 +168,6 @@ describe('ClientService Suite Tests', () => {
             "birthDate": "1962-02-25T02:27:39.938Z",
             "address": "Hyatt Road, 0648 Santa Monica = CO",
             "gender": "",
-
         }
 
         const expected = { error: "Field gender is required" };
@@ -214,7 +218,6 @@ describe('ClientService Suite Tests', () => {
             "birthDate": "1962-02-25T02:27:39.938Z",
             "address": "Hyatt Road, 0648 Santa Monica = CO",
             "gender": "male",
-
         }
 
         const expected = { error: "Field id is required" };

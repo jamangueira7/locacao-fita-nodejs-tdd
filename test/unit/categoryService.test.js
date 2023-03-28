@@ -3,17 +3,25 @@ const sinon = require('sinon');
 
 const { join } = require('path');
 const { expect } = require('chai');
-
-const CategoryService = require('./../../src/service/categoryService');
-const CategoryRepository = require('./../../src/repository/categoryRepository');
-
-const categoryDatabase  = join(__dirname, './../../database', "categories.json");
+const { writeFile } = require('fs/promises');
 
 const mocks = {
     validCategory: require('./../mocks/category/valid-category.json'),
     validAllCategories: require('./../mocks/category/valid-all-categories.json'),
     validCategoryRemove: require('./../mocks/category/valid-category-remove.json'),
 };
+
+
+(async (filename, data) => {
+    const seederBaseFoder = join(__dirname, "../../", "database");
+    await writeFile(join(seederBaseFoder, filename), JSON.stringify(data));
+})('categories_test.json', mocks.validAllCategories);
+
+const CategoryService = require('./../../src/service/categoryService');
+const CategoryRepository = require('./../../src/repository/categoryRepository');
+
+const categoryDatabase  = join(__dirname, './../../database', "categories_test.json");
+
 
 
 categoryRepository = new CategoryRepository();
@@ -53,7 +61,6 @@ describe('CategoryService Suite Tests', () => {
     });
 
     it('should return all categories', async () => {
-
         const expected = mocks.validAllCategories;
 
         const result = await categoryService.getAllCategory();
