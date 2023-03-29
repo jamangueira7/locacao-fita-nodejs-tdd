@@ -166,6 +166,69 @@ Retorna:
 }
 ```
 
+- **`POST /client`**: Rota para criar cliente
+
+enviar:
+```
+{
+   "name": "Client test",
+    "birthDate": "2002-09-07T13:17:48.098Z",
+    "address": "Dickens Mall, 9551 Georgetown = IN",
+    "gender": "male",
+}
+```
+
+Retorna:
+```
+{
+   "id":"1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+   "name": "Client test",
+   "birthDate": "2002-09-07T13:17:48.098Z",
+   "address": "Dickens Mall, 9551 Georgetown = IN",
+   "gender": "male",
+}
+```
+
+- **`POST /client/change`**: Rota para alterar cliente
+
+enviar:
+```
+{
+    "id": "1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+    "name": "Client test change",
+    "birthDate": "2002-09-07T13:17:48.098Z",
+    "address": "Dickens Mall, 9551 Georgetown = IN change",
+    "gender": "male",
+}
+```
+
+Retorna:
+```
+{
+    "id": "1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+    "name": "Client test change",
+    "birthDate": "2002-09-07T13:17:48.098Z",
+    "address": "Dickens Mall, 9551 Georgetown = IN change",
+    "gender": "male",
+}
+```
+
+- **`POST /client/delete`**: Rota para excluir cliente
+
+enviar:
+```
+{
+    "id": "1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+}
+```
+
+Retorna:
+```
+{
+    "msg": "Client 1f671f49-0e3f-442e-b764-f0a4222b5a3e remove",
+}
+```
+
 - **`GET /tapes`**: Rota para retornar todas as fitas
 
 Retorna:
