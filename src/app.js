@@ -43,7 +43,7 @@ const createService = () => {
     return {
         CategoryService: new CategoryService({ repository: categoryRepository }),
         ClientService: new ClientService({ repository: clientRepository }),
-        MovieService: new MovieService({ repository: movieRepository }),
+        MovieService: new MovieService({ repository: movieRepository, categoryRepository: categoryRepository }),
         TapeService: new TapeService({ repository: tapeRepository, movieRepository: movieRepository }),
         RentalService: new RentalService({ repository: rentalRepository }),
     }
@@ -258,6 +258,37 @@ class App {
                 const { id: part } = request;
                 const movies = await this.movieService.getMoviesThatHaveThatWordInTheDescription(part);
                 response.write(JSON.stringify(movies));
+                return response.end();
+            },
+            '/movie:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+
+                }
+
+                const client = await this.movieService.createMovie(dataValue);
+                response.write(client);
+                return response.end();
+            },
+            '/movie/change:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const client = await this.movieService.changeMovie(dataValue);
+                response.write(client);
+                return response.end();
+            },
+            '/movie/delete:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const client = await this.movieService.deleteMovie(dataValue.id);
+                response.write(client);
                 return response.end();
             },
 

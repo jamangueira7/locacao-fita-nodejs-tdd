@@ -884,6 +884,426 @@ describe("API Suite test", () => {
 
             });
 
+            it('create movie error by name empty', async () => {
+                const expected = {
+                    "error": "Field name is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"",
+                        "description":"description test",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by name undefined', async () => {
+                const expected = {
+                    "error": "Field name is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "description":"description test",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by description empty', async () => {
+                const expected = {
+                    "error": "Field description is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":"",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by description undefined', async () => {
+                const expected = {
+                    "error": "Field description is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by categoryId empty', async () => {
+                const expected = {
+                    "error": "Field categoryId is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":" description test",
+                        "categoryId":"",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by categoryId undefined', async () => {
+                const expected = {
+                    "error": "Field categoryId is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":" description test",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by year empty', async () => {
+                const expected = {
+                    "error": "Field year is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":" description test",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "year": "",
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by year undefined', async () => {
+                const expected = {
+                    "error": "Field year is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":" description test",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by classification empty', async () => {
+                const expected = {
+                    "error": "Field classification is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":" description test",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification": ""
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by classification undefined', async () => {
+                const expected = {
+                    "error": "Field classification is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":" description test",
+                        "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                        "year":1559,
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create movie error by category does not exist', async () => {
+                const expected = {
+                    "error":"Category does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send({
+                        "name":"name test",
+                        "description":"description test",
+                        "categoryId":"077968ee-ffff-ffff-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.color, expected.color);
+                assert.deepStrictEqual(aux.movieId, expected.movieId);
+            });
+
+            it('create movie', async () => {
+                const expected = {
+                    "name":"name test",
+                    "description":"description test",
+                    "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+                    "year":1559,
+                    "classification":0
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie`)
+                    .send(expected)
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.color, expected.color);
+                assert.deepStrictEqual(aux.movieId, expected.movieId);
+            });
+
+            it('update movie error by id empty', async () => {
+                const expected = {
+                    "error": "Field id is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/change`)
+                    .send({
+                        "id": "",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('update movie error by id undefined', async () => {
+                const expected = {
+                    "error": "Field id is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/change`)
+                    .send({
+                        "name": "ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('update movie error by category does not exist', async () => {
+                const expected = {
+                    "error":"Category does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/change`)
+                    .send({
+                        "id":"ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+                        "name":"name test",
+                        "description":"description test",
+                        "categoryId":"077968ee-ffff-ffff-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.color, expected.color);
+                assert.deepStrictEqual(aux.movieId, expected.movieId);
+            });
+
+            it('update movie error by movie does not exist', async () => {
+                const expected = {
+                    "error":"Movie does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/change`)
+                    .send({
+                        "id":"077968ee-ffff-ffff-84d3-6bb5604811f0",
+                        "name":"name test",
+                        "description":"description test",
+                        "categoryId":"077968ee-ffff-ffff-84d3-6bb5604811f0",
+                        "year":1559,
+                        "classification":0
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.color, expected.color);
+                assert.deepStrictEqual(aux.movieId, expected.movieId);
+            });
+
+            it('update movie', async () => {
+                const expected = {
+                    "id":"ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+                    "name":"West white Solutions blue Albuquerque change",
+                    "description":"East programming man Keyboard woefully experiences though Islands Manager yippee change",
+                    "categoryId":"06a7b337-18dc-4690-a12b-911b01937376",
+                    "year":1996,
+                    "classification":16
+                }
+
+                const response = await request(api.server)
+                    .post(`/movie/change`)
+                    .send(expected)
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+                console.log(aux)
+                assert.deepStrictEqual(aux.id, expected.id);
+                assert.deepStrictEqual(aux.name, expected.name);
+                assert.deepStrictEqual(aux.description, expected.description);
+                assert.deepStrictEqual(aux.categoryId, expected.categoryId);
+                assert.deepStrictEqual(aux.year, expected.year);
+                assert.deepStrictEqual(aux.classification, expected.classification);
+            });
+
+            it('delete movie error by id empty', async () => {
+                const expected = {
+                    "error": "Field id is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/delete`)
+                    .send({
+                        "id": "",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('delete movie error by id undefined', async () => {
+                const expected = {
+                    "error": "Field id is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/delete`)
+                    .send({
+                        "name": "ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('delete movie error by movie does not exist', async () => {
+                const expected = {
+                    "error":"Movie does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/delete`)
+                    .send({
+                        "id":"077968ee-ffff-ffff-84d3-6bb5604811f0"
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.color, expected.color);
+                assert.deepStrictEqual(aux.movieId, expected.movieId);
+            });
+
+            it('delete movie', async () => {
+                const expected = {
+                    "msg": "Movie ea99a7c7-7932-4dc9-ae8d-b601d84961dd remove",
+                };
+
+                const response = await request(api.server)
+                    .post(`/movie/delete`)
+                    .send({
+                        "id": "ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
 
         });
     });

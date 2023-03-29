@@ -111,7 +111,44 @@ class MovieService {
 
             return await this.repository.create(movie);
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
+        }
+    }
+
+    async changeMovie(param) {
+        try {
+            if(
+                !param.id
+                || param.id === "undefined"
+                || param.id === ""
+            ) {
+
+                throw new Error("Field id is required");
+            }
+
+            const old = await this.repository.find(param.id.toString());
+
+            if(!old) {
+                throw new Error("Movie does not exist");
+            }
+
+            const category = await this.categoryRepository.find(param.categoryId.toString());
+            if(!category) {
+                throw new Error("Category does not exist");
+            }
+
+            const movie = new Movie({
+                id: param.id,
+                name: param.name,
+                description: param.description,
+                categoryId: param.categoryId,
+                year: param.year,
+                classification: param.classification,
+            });
+
+            return await this.repository.update(movie);
+        } catch (err) {
+            return JSON.stringify({ error: err.message });
         }
     }
 
@@ -134,9 +171,9 @@ class MovieService {
 
             await this.repository.delete(id);
 
-            return { msg: `Movie ${id} remove`}
+            return JSON.stringify({ msg: `Movie ${id} remove`});
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 }

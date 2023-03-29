@@ -129,7 +129,7 @@ describe('MovieService Suite Tests', () => {
 
         let result = await movieService.deleteMovie(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -140,7 +140,7 @@ describe('MovieService Suite Tests', () => {
 
         let result = await movieService.deleteMovie(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field name with a create new movie ', async () => {
@@ -152,7 +152,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field name with a create new client ', async () => {
@@ -164,7 +164,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field description with a create new movie ', async () => {
@@ -177,7 +177,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field description with a create new client ', async () => {
@@ -189,7 +189,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field categoryId with a create new movie ', async () => {
@@ -203,7 +203,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field categoryId with a create new client ', async () => {
@@ -216,7 +216,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field year with a create new movie ', async () => {
@@ -231,7 +231,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field year with a create new client ', async () => {
@@ -245,7 +245,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field classification with a create new movie ', async () => {
@@ -261,7 +261,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field classification with a create new client ', async () => {
@@ -276,7 +276,7 @@ describe('MovieService Suite Tests', () => {
 
         const result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should create a new client ', async () => {
@@ -311,7 +311,7 @@ describe('MovieService Suite Tests', () => {
 
         let result = await movieService.deleteMovie(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should error by update movie does not exist ', async () => {
@@ -328,6 +328,6 @@ describe('MovieService Suite Tests', () => {
 
         let result = await movieService.createMovie(new_movie);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 });
