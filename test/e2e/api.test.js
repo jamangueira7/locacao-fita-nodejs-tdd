@@ -1227,7 +1227,6 @@ describe("API Suite test", () => {
                     .expect(200)
 
                 const aux = JSON.parse(response.text);
-                console.log(aux)
                 assert.deepStrictEqual(aux.id, expected.id);
                 assert.deepStrictEqual(aux.name, expected.name);
                 assert.deepStrictEqual(aux.description, expected.description);

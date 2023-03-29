@@ -69,7 +69,6 @@ class ClientService {
         }
     }
 
-
     async changeClient(client_param) {
         try {
             if(

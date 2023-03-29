@@ -122,7 +122,6 @@ class MovieService {
                 || param.id === "undefined"
                 || param.id === ""
             ) {
-
                 throw new Error("Field id is required");
             }
 
