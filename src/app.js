@@ -44,7 +44,7 @@ const createService = () => {
         CategoryService: new CategoryService({ repository: categoryRepository }),
         ClientService: new ClientService({ repository: clientRepository }),
         MovieService: new MovieService({ repository: movieRepository }),
-        TapeService: new TapeService({ repository: tapeRepository }),
+        TapeService: new TapeService({ repository: tapeRepository, movieRepository: movieRepository }),
         RentalService: new RentalService({ repository: rentalRepository }),
     }
 }
@@ -162,6 +162,27 @@ class App {
                 const { id: movieId } = request;
                 const tape = await this.tapeService.getAllTapesByMovieId(movieId);
                 response.write(JSON.stringify(tape));
+                return response.end();
+            },
+            '/tape:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+
+                }
+
+                const tape = await this.tapeService.createTape(dataValue);
+                response.write(tape);
+                return response.end();
+            },
+            '/tape/delete:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const category = await this.tapeService.deleteTape(dataValue.id);
+                response.write(category);
                 return response.end();
             },
 

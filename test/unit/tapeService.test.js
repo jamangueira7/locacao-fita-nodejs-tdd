@@ -105,7 +105,7 @@ describe('TapeService Suite Tests', () => {
 
         const result = await tapeService.createTape(new_tape);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field name with a create new tape ', async () => {
@@ -117,7 +117,7 @@ describe('TapeService Suite Tests', () => {
 
         const result = await tapeService.createTape(new_tape);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field movieId with a create new tape ', async () => {
@@ -129,7 +129,7 @@ describe('TapeService Suite Tests', () => {
 
         const result = await tapeService.createTape(new_tape);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined movieId name with a create new tape ', async () => {
@@ -142,7 +142,7 @@ describe('TapeService Suite Tests', () => {
 
         const result = await tapeService.createTape(new_tape);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should create a new tape ', async () => {
@@ -170,7 +170,7 @@ describe('TapeService Suite Tests', () => {
 
         const result = await tapeService.createTape(new_tape);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should error by empty id with delete a tape', async () => {
@@ -180,7 +180,7 @@ describe('TapeService Suite Tests', () => {
 
         let result = await tapeService.deleteTape(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -191,7 +191,7 @@ describe('TapeService Suite Tests', () => {
 
         let result = await tapeService.deleteTape(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should error by tape does not exist delete a tape', async () => {
@@ -202,7 +202,7 @@ describe('TapeService Suite Tests', () => {
 
         let result = await tapeService.deleteTape(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 });

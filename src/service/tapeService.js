@@ -55,7 +55,6 @@ class TapeService {
 
                 throw new Error("Field movieId is required");
             }
-
             const movie = await this.movieRepository.find(new_tape.movieId.toString());
             if(!movie) {
                 throw new Error("Movie does not exist");
@@ -69,7 +68,7 @@ class TapeService {
 
             return await this.repository.create(tape);
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 
@@ -92,9 +91,9 @@ class TapeService {
 
             await this.repository.delete(id);
 
-            return { msg: `Tape ${id} remove`}
+            return JSON.stringify({ msg: `Tape ${id} remove`});
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 }

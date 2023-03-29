@@ -37,14 +37,11 @@ describe("API Suite test", () => {
     let api = {};
     let sandbox = sinon.createSandbox();
 
-    before(async () => {
+    beforeEach( async() => {
         await write('categories_test.json', mocks.allCategories);
         await write('clients_test.json', mocks.allClients);
         await write('movies_test.json', mocks.allMovies);
         await write('tapes_test.json', mocks.allTapes);
-    });
-
-    beforeEach(() => {
         sandbox = sinon.createSandbox();
     });
 
@@ -362,6 +359,158 @@ describe("API Suite test", () => {
                     .query({ movieId: "a6e634fd-1c79-4062-9d4b-61ead6cf2b8c" })
                     .expect(expected.tape);
 
+            });
+
+            it('create tape error by color empty', async () => {
+                const expected = { error: 'Field color is required' };
+
+                const response = await request(api.server)
+                    .post(`/tape`)
+                    .send({
+                        "color": "",
+                        "movieId": "7e5c8719-313f-445b-83d9-21d1ecf78b91",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create tape error by color undefined', async () => {
+                const expected = { error: 'Field color is required' };
+
+                const response = await request(api.server)
+                    .post(`/tape`)
+                    .send({
+                        "name": "test API change",
+                        "movieId": "7e5c8719-313f-445b-83d9-21d1ecf78b91",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create tape error by movieId empty', async () => {
+                const expected = { error: 'Field movieId is required' };
+
+                const response = await request(api.server)
+                    .post(`/tape`)
+                    .send({
+                        "color": "blue",
+                        "movieId": "",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create tape error by movieId undefined', async () => {
+                const expected = { error: 'Field movieId is required' };
+
+                const response = await request(api.server)
+                    .post(`/tape`)
+                    .send({
+                        "name": "test API change",
+                        "color": "blue",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create tape error by movie does not exist', async () => {
+                const expected = {
+                    "msg": "Movie does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/tape`)
+                    .send({
+                        "color": "blue",
+                        "movieId": "7e5c8719-fff-fff-83d9-21d1ecf78b91",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.color, expected.color);
+                assert.deepStrictEqual(aux.movieId, expected.movieId);
+            });
+
+            it('create tape', async () => {
+                const expected = {
+                    "color": "blue",
+                    "movieId": "7e5c8719-313f-445b-83d9-21d1ecf78b91",
+                };
+
+                const response = await request(api.server)
+                    .post(`/tape`)
+                    .send(expected)
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.color, expected.color);
+                assert.deepStrictEqual(aux.movieId, expected.movieId);
+            });
+
+            it('create tape error by color empty', async () => {
+                const expected = { error: 'Field id is required' };
+
+                const response = await request(api.server)
+                    .post(`/tape/delete`)
+                    .send({
+                        "id": "",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create tape error by color undefined', async () => {
+                const expected = { error: 'Field id is required' };
+
+                const response = await request(api.server)
+                    .post(`/tape/delete`)
+                    .send({
+                        "name": "",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('delete tape error by Tape does not exist', async () => {
+                const expected = {
+                    "error": "Tape does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/tape/delete`)
+                    .send({
+                        "id": "179a8334-ffff-ffff-aec4-2b76d7d3eea5",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('delete tape', async () => {
+                const expected = {
+                    "msg": "Tape 179a8334-eb33-4b5d-aec4-2b76d7d3eea5 remove",
+                };
+
+                const response = await request(api.server)
+                    .post(`/tape/delete`)
+                    .send({
+                        "id": "179a8334-eb33-4b5d-aec4-2b76d7d3eea5",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
             });
         });
 
