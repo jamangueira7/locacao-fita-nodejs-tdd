@@ -78,6 +78,57 @@ Retorna:
 }
 ```
 
+- **`POST /category`**: Rota para criar categoria
+
+Enviar:
+```
+{
+   "name": "test API"
+}
+```
+
+Retorna:
+```
+{
+   "id":"97587e96-fa58-48d2-acb7-9f2b27a0064f",
+   "name":"analog"
+}
+```
+
+- **`POST /category/change`**: Rota para alterar categoria
+
+Enviar:
+```
+{
+   "id": "42153792-2d54-4159-99e6-d09b0c419b2f",
+   "name": "test API change"
+}
+```
+
+Retorna:
+```
+{
+   "id": "42153792-2d54-4159-99e6-d09b0c419b2f",
+   "name": "test API change"
+}
+```
+
+- **`POST /category/delete`**: Rota para deletar categoria
+
+Enviar:
+```
+{
+   "id": "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9"
+}
+```
+
+Retorna:
+```
+{
+   "msg": "Category ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9 remove"
+}
+```
+
 - **`GET /clients`**: Rota para retornar todos os clientes
 
 Retorna:
@@ -366,7 +417,7 @@ Retorna:
 ]
 ```
 
-- **`GET /description?name`**: Rota para retornar filmes por uma parte da descrição
+- **`GET /movie?description`**: Rota para retornar filmes por uma parte da descrição
 
 Retorna:
 ```
