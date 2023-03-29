@@ -72,7 +72,7 @@ describe('ClientService Suite Tests', () => {
 
         let result = await clientService.deleteClient(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
 
     });
 
@@ -83,7 +83,7 @@ describe('ClientService Suite Tests', () => {
 
         let result = await clientService.deleteClient(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field name with a create new client ', async () => {
@@ -95,7 +95,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field name with a create new client ', async () => {
@@ -107,7 +107,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field birthDate with a create new client ', async () => {
@@ -120,7 +120,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field birthDate with a create new client ', async () => {
@@ -132,7 +132,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field address with a create new client ', async () => {
@@ -146,7 +146,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field address with a create new client ', async () => {
@@ -159,7 +159,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error empty field gender with a create new client ', async () => {
@@ -174,7 +174,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by error undefined field gender with a create new client ', async () => {
@@ -188,7 +188,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.createClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should create a new client ', async () => {
@@ -224,7 +224,7 @@ describe('ClientService Suite Tests', () => {
 
         const result = await clientService.changeClient(new_client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by update a client ', async () => {
@@ -249,7 +249,7 @@ describe('ClientService Suite Tests', () => {
 
         let result = await clientService.deleteClient(id);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 
     it('should by update a client ', async () => {
@@ -265,6 +265,6 @@ describe('ClientService Suite Tests', () => {
 
         let result = await clientService.changeClient(client);
 
-        expect(result).to.eql(expected);
+        expect(JSON.parse(result)).to.eql(expected);
     });
 });

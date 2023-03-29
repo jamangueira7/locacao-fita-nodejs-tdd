@@ -133,6 +133,37 @@ class App {
                 response.write(JSON.stringify(client));
                 return response.end();
             },
+            '/client:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+
+                }
+
+                const client = await this.clientService.createClient(dataValue);
+                response.write(client);
+                return response.end();
+            },
+            '/client/change:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const client = await this.clientService.changeClient(dataValue);
+                response.write(client);
+                return response.end();
+            },
+            '/client/delete:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const client = await this.clientService.deleteClient(dataValue.id);
+                response.write(client);
+                return response.end();
+            },
 
             '/tapes:get': async (request, response) => {
 

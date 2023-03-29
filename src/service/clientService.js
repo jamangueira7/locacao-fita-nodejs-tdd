@@ -65,7 +65,7 @@ class ClientService {
 
             return await this.repository.create(client);
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 
@@ -97,7 +97,7 @@ class ClientService {
 
             return await this.repository.update(client);
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 
@@ -120,9 +120,9 @@ class ClientService {
 
             await this.repository.delete(id);
 
-            return { msg: `Client ${id} remove`}
+            return JSON.stringify({ msg: `Client ${id} remove`});
         } catch (err) {
-            return { error: err.message }
+            return JSON.stringify({ error: err.message });
         }
     }
 }

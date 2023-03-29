@@ -295,6 +295,285 @@ describe("API Suite test", () => {
                     .expect(expected.client);
 
             });
+
+            it('create client error by name empty', async () => {
+                const expected = { error: 'Field name is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "name": "",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                        "gender": "male",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client error by name undefined', async () => {
+                const expected = { error: 'Field name is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                        "gender": "male",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client error by birthDate empty', async () => {
+                const expected = { error: 'Field birthDate is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "name": "Client test",
+                        "birthDate": "",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                        "gender": "male",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client error by birthDate undefined', async () => {
+                const expected = { error: 'Field birthDate is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "name": "Client test",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                        "gender": "male",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client error by address empty', async () => {
+                const expected = { error: 'Field address is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "",
+                        "gender": "male",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client error by address undefined', async () => {
+                const expected = { error: 'Field address is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "gender": "male",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client error by gender empty', async () => {
+                const expected = { error: 'Field gender is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                        "gender": "",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client error by gender undefined', async () => {
+                const expected = { error: 'Field gender is required' };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send({
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('create client', async () => {
+                const expected = {
+                    "name": "Client test",
+                    "birthDate": "2002-09-07T13:17:48.098Z",
+                    "address": "Dickens Mall, 9551 Georgetown = IN",
+                    "gender": "male",
+                };
+
+                const response = await request(api.server)
+                    .post(`/client`)
+                    .send(expected)
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux.name, expected.name);
+                assert.deepStrictEqual(aux.birthDate, expected.birthDate);
+                assert.deepStrictEqual(aux.address, expected.address);
+                assert.deepStrictEqual(aux.gender, expected.gender);
+            });
+
+            it('update client error by id empty', async () => {
+                const expected = { error: 'Field id is required' };
+
+                const response = await request(api.server)
+                    .post(`/client/change`)
+                    .send({
+                        "id": "",
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                        "gender": "",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('update client error by id undefined', async () => {
+                const expected = { error: 'Field id is required' };
+
+                const response = await request(api.server)
+                    .post(`/client/change`)
+                    .send({
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('update client error by client does not exist', async () => {
+                const expected = {
+                    "error": "Client does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/client/change`)
+                    .send({
+                        "id": "179a8334-ffff-ffff-aec4-2b76d7d3eea5",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('update client', async () => {
+                const expected = {
+                    "id": "1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+                    "name": "Client test change",
+                    "birthDate": "2002-09-07T13:17:48.098Z",
+                    "address": "Dickens Mall, 9551 Georgetown = IN change",
+                    "gender": "male",
+                };
+
+                const response = await request(api.server)
+                    .post(`/client/change`)
+                    .send(expected)
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('delete client error by id empty', async () => {
+                const expected = { error: 'Field id is required' };
+
+                const response = await request(api.server)
+                    .post(`/client/delete`)
+                    .send({
+                        "id": "",
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                        "gender": "",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('delete client error by id undefined', async () => {
+                const expected = { error: 'Field id is required' };
+
+                const response = await request(api.server)
+                    .post(`/client/delete`)
+                    .send({
+                        "name": "Client test",
+                        "birthDate": "2002-09-07T13:17:48.098Z",
+                        "address": "Dickens Mall, 9551 Georgetown = IN",
+                    })
+                    .expect(200)
+
+                assert.deepStrictEqual(JSON.parse(response.text), expected);
+            });
+
+            it('delete client error by client does not exist', async () => {
+                const expected = {
+                    "error": "Client does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/client/delete`)
+                    .send({
+                        "id": "179a8334-ffff-ffff-aec4-2b76d7d3eea5",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('delete client', async () => {
+                const expected = {
+                    "msg": "Client 1f671f49-0e3f-442e-b764-f0a4222b5a3e remove",
+                };
+
+                const response = await request(api.server)
+                    .post(`/client/delete`)
+                    .send({
+                        "id": "1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
         });
 
         describe('/tapes', () => {
@@ -479,7 +758,7 @@ describe("API Suite test", () => {
                 assert.deepStrictEqual(JSON.parse(response.text), expected);
             });
 
-            it('delete tape error by Tape does not exist', async () => {
+            it('delete tape error by tape does not exist', async () => {
                 const expected = {
                     "error": "Tape does not exist",
                 };
@@ -604,6 +883,8 @@ describe("API Suite test", () => {
                     .expect(expected.movie);
 
             });
+
+
         });
     });
 });
