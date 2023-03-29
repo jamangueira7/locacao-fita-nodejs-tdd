@@ -78,7 +78,7 @@ describe('MovieService Suite Tests', () => {
         expect(result).to.eql(expected);
     });
 
-   it('should return all movies by Category', async () => {
+   it('should return all movies by category', async () => {
         const id = "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9";
         const expected = mocks.validAllMoviesByCategory;
 
@@ -155,7 +155,7 @@ describe('MovieService Suite Tests', () => {
         expect(JSON.parse(result)).to.eql(expected);
     });
 
-    it('should by error undefined field name with a create new client ', async () => {
+    it('should by error undefined field name with a create new movie ', async () => {
         const new_movie = {
             "id": "",
         }
@@ -180,7 +180,7 @@ describe('MovieService Suite Tests', () => {
         expect(JSON.parse(result)).to.eql(expected);
     });
 
-    it('should by error undefined field description with a create new client ', async () => {
+    it('should by error undefined field description with a create new movie ', async () => {
         const new_movie = {
             "name": "Test Name",
         }
@@ -206,7 +206,7 @@ describe('MovieService Suite Tests', () => {
         expect(JSON.parse(result)).to.eql(expected);
     });
 
-    it('should by error undefined field categoryId with a create new client ', async () => {
+    it('should by error undefined field categoryId with a create new movie ', async () => {
         const new_movie = {
             "name": "Test Name",
             "description": "test description",
@@ -234,7 +234,7 @@ describe('MovieService Suite Tests', () => {
         expect(JSON.parse(result)).to.eql(expected);
     });
 
-    it('should by error undefined field year with a create new client ', async () => {
+    it('should by error undefined field year with a create new movie ', async () => {
         const new_movie = {
             "name": "Test Name",
             "description": "test description",
@@ -264,7 +264,7 @@ describe('MovieService Suite Tests', () => {
         expect(JSON.parse(result)).to.eql(expected);
     });
 
-    it('should by error undefined field classification with a create new client ', async () => {
+    it('should by error undefined field classification with a create new movie ', async () => {
         const new_movie = {
             "name": "Test Name",
             "description": "test description",
@@ -279,7 +279,7 @@ describe('MovieService Suite Tests', () => {
         expect(JSON.parse(result)).to.eql(expected);
     });
 
-    it('should create a new client ', async () => {
+    it('should create a new movie ', async () => {
         const expected = {
             "name": "Test Name",
             "description": "test description",
@@ -289,6 +289,94 @@ describe('MovieService Suite Tests', () => {
         }
 
         let result = await movieService.createMovie(expected);
+        result = JSON.parse(result);
+
+        expect(result.name).to.be.exist;
+        expect(result.name).to.eql(expected.name);
+        expect(result.description).to.be.exist;
+        expect(result.description).to.eql(expected.description);
+        expect(result.categoryId).to.be.exist;
+        expect(result.categoryId).to.eql(expected.categoryId);
+        expect(result.year).to.be.exist;
+        expect(result.year).to.eql(expected.year);
+        expect(result.classification).to.be.exist;
+        expect(result.classification).to.eql(expected.classification);
+    });
+
+    it('should update a movie error by id empty', async () => {
+        const expected = { error: "Field id is required" };
+
+        const movie = {
+            "id": "",
+            "name": "Test Name",
+            "description": "test description",
+            "categoryId": "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+            "year": 2023,
+            "classification": 18,
+        }
+
+        let result = await movieService.changeMovie(movie);
+        expect(JSON.parse(result)).to.eql(expected);
+    });
+
+    it('should update a movie error by id undefined', async () => {
+        const expected = { error: "Field id is required" };
+
+        const movie = {
+            "name": "Test Name",
+            "description": "test description",
+            "categoryId": "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+            "year": 2023,
+            "classification": 18,
+        }
+
+        let result = await movieService.changeMovie(movie);
+        expect(JSON.parse(result)).to.eql(expected);
+    });
+
+    it('should update a movie error by movie does not exist', async () => {
+        const expected = { error: "Movie does not exist" };
+
+        const movie = {
+            "id": "ea99a7c7-ffff-ffff-ae8d-b601d84961dd",
+            "name": "Test Name",
+            "description": "test description",
+            "categoryId": "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+            "year": 2023,
+            "classification": 18,
+        }
+
+        let result = await movieService.changeMovie(movie);
+        expect(JSON.parse(result)).to.eql(expected);
+    });
+
+    it('should update a movie error by category does not exist', async () => {
+        const expected = { error: "Category does not exist" };
+
+        const movie = {
+            "id": "ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+            "name": "Test Name",
+            "description": "test description",
+            "categoryId": "ec1130eb-ffff-ffff-bd4d-281c9f9e59a9",
+            "year": 2023,
+            "classification": 18,
+        }
+
+        let result = await movieService.changeMovie(movie);
+        expect(JSON.parse(result)).to.eql(expected);
+    });
+
+    it('should update a movie ', async () => {
+        const expected = {
+            "id": "ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+            "name": "Test Name",
+            "description": "test description",
+            "categoryId": "ec1130eb-bcc2-4d87-bd4d-281c9f9e59a9",
+            "year": 2023,
+            "classification": 18,
+        }
+
+        let result = await movieService.changeMovie(expected);
         result = JSON.parse(result);
 
         expect(result.name).to.be.exist;

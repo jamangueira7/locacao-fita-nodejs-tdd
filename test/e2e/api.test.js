@@ -1304,7 +1304,6 @@ describe("API Suite test", () => {
 
                 assert.deepStrictEqual(aux, expected);
             });
-
         });
     });
 });
