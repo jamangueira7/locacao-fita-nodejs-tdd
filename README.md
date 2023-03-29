@@ -249,6 +249,41 @@ Retorna:
 }
 ```
 
+- **`POST /tape`**: Rota para criar fita
+
+enviar:
+```
+{
+  "color": "blue",
+  "movieId": "7e5c8719-313f-445b-83d9-21d1ecf78b91",
+}
+```
+
+Retorna:
+```
+{
+  "id":"d937e217-f7e3-45ef-8933-babcd079102b",
+  "color": "blue",
+  "movieId": "7e5c8719-313f-445b-83d9-21d1ecf78b91",
+}
+```
+
+- **`POST /tape/delete`**: Rota para deletar fita
+
+enviar:
+```
+{
+  "id":"d937e217-f7e3-45ef-8933-babcd079102b",
+}
+```
+
+Retorna:
+```
+{
+  "msg": "Tape d937e217-f7e3-45ef-8933-babcd079102b remove",
+}
+```
+
 - **`GET /moveis`**: Rota para retornar todos os filmes
 
 Retorna:
