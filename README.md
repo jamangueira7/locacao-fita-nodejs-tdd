@@ -539,6 +539,73 @@ Retorna:
 ]
 ```
 
+- **`POST /movie`**: Rota para criar filme
+
+enviar:
+```
+{
+    "name":"name test",
+    "description":"description test",
+    "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+    "year":1559,
+    "classification":0
+}
+```
+
+Retorna:
+```
+{
+    "id":"1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+    "name":"name test",
+    "description":"description test",
+    "categoryId":"077968ee-fd43-4286-84d3-6bb5604811f0",
+    "year":1559,
+    "classification":0
+}
+```
+
+- **`POST /movie/change`**: Rota para alterar filme
+
+enviar:
+```
+{
+    "id":"ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+    "name":"West white Solutions blue Albuquerque",
+    "description":"East programming man Keyboard woefully experiences though Islands Manager yippee",
+    "categoryId":"06a7b337-18dc-4690-a12b-911b01937376",
+    "year":1997,
+    "classification":16
+}
+```
+
+Retorna:
+```
+{
+    "id":"ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+    "name":"West white Solutions blue Albuquerque change",
+    "description":"East programming man Keyboard woefully experiences though Islands Manager yippee change",
+    "categoryId":"06a7b337-18dc-4690-a12b-911b01937376",
+    "year":1996,
+    "classification":16
+}
+```
+
+- **`POST /movie/delete`**: Rota para excluir filme
+
+enviar:
+```
+{
+    "id": "1f671f49-0e3f-442e-b764-f0a4222b5a3e",
+}
+```
+
+Retorna:
+```
+{
+    "msg": "Movie 1f671f49-0e3f-442e-b764-f0a4222b5a3e remove",
+}
+```
+
 ## 📖 Story: Alugar uma fita
 
 #### Caso de Uso 01
