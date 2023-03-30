@@ -2,9 +2,10 @@ const {v4: uuidv4} = require("uuid");
 const Tape = require("../entities/tape");
 
 class TapeService {
-    constructor({ repository, movieRepository }) {
+    constructor({ repository, movieRepository, rentalRepository }) {
         this.repository = repository;
         this.movieRepository = movieRepository;
+        this.rentalRepository = rentalRepository;
     }
 
     async getTapeById(id) {
@@ -32,6 +33,26 @@ class TapeService {
     async getRandomTapeByMovieId(id) {
         const tapes = await this.repository.all();
         const result = await tapes.filter(({ movieId }) => movieId === id);
+
+        for await (let tape of result) {
+            let rentals = await this.rentalRepository.all();
+
+            rentals.filter(async (rental) => {
+                for await (let tape_id of rental.tapeId) {
+
+                    if (tape_id === tape.id && rental.isRent) {
+                        const index = result.indexOf(rental);
+                        result.splice(index, 1);
+                        return true;
+                    }
+                }
+            });
+        }
+
+        if(result.length === 0) {
+            return false;
+        }
+
         const tape_index = Math.floor(Math.random() * result.length);
         return result[tape_index];
     }

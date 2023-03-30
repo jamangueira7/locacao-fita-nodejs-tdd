@@ -7,9 +7,11 @@ const { expect } = require('chai');
 const TapeService = require('./../../src/service/tapeService');
 const TapeRepository = require('./../../src/repository/tapeRepository');
 const MovieRepository = require('./../../src/repository/movieRepository');
+const RentalRepository = require('./../../src/repository/rentalRepository');
 
 const tapeDatabase  = join(__dirname, './../../database', "tapes_test.json");
 const movieDatabase  = join(__dirname, './../../database', "movies_test.json");
+const rentalDatabase  = join(__dirname, './../../database', "rentals_test.json");
 
 const mocks = {
     validTape: require('./../mocks/tape/valid-tape.json'),
@@ -23,6 +25,8 @@ tapeRepository = new TapeRepository();
 tapeRepository.init({ file: tapeDatabase }, "tapes_test.json");
 movieRepository = new MovieRepository();
 movieRepository.init({ file: movieDatabase }, "movies_test.json");
+rentalRepository = new RentalRepository();
+rentalRepository.init({ file: rentalDatabase }, "rentals_test.json");
 
 
 const mockRepositoryGetTapeById = sinon.stub(tapeRepository, 'find');
@@ -39,7 +43,8 @@ describe('TapeService Suite Tests', () => {
     before(() => {
         tapeService = new TapeService({
             repository: tapeRepository,
-            movieRepository: movieRepository
+            movieRepository: movieRepository,
+            rentalRepository: rentalRepository,
         });
     });
 
