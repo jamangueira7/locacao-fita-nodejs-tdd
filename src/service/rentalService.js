@@ -76,10 +76,7 @@ class RentalService {
 
             const end_date = await this.calculateEndDate(more_days);
 
-            console.log("***", today.getDay())
-            console.log("***", today)
-            console.log("***", more_days)
-            console.log("***", end_date)
+            let amount = (4 * rental_param.movies.length).toFixed(2);
 
             const rental = new Rental({
                 id: uuidv4(),
@@ -87,11 +84,47 @@ class RentalService {
                 clientId: client.id,
                 startDate: today,
                 endDate: end_date,
-                amount: 0,
+                amount: amount,
                 isRent: true,
             })
 
             return await this.repository.create(rental);
+
+        } catch (err) {
+            return JSON.stringify({ error: err.message });
+        }
+    }
+
+    async finalizeRental(id) {
+        try {
+            if(
+                !id
+                || id === "undefined"
+                || id === ""
+            ) {
+                throw new Error("Field id is required");
+            }
+
+
+            const old = await this.repository.find(id.toString());
+            if(!old) {
+                throw new Error(`Rental ${id} does not exist`);
+            }
+
+            const days_fine = await this.calculateDaysLate(old.endDate);
+
+            let amount = days_fine < 0 ? ((Math.abs(days_fine) * parseInt(old.amount)) + parseInt(old.amount)).toFixed(2) : old.amount;
+            const rental = new Rental({
+                id: old.id,
+                tapeId: old.tapeId,
+                clientId: old.clientId,
+                startDate: old.startDate,
+                endDate: old.endDate,
+                amount: amount,
+                isRent: false,
+            })
+
+            return await this.repository.update(rental);
 
         } catch (err) {
             return JSON.stringify({ error: err.message });
@@ -103,6 +136,18 @@ class RentalService {
         end_date.setDate(end_date.getDate() + more_days);
 
         return end_date;
+    }
+
+    async calculateDaysLate(date) {
+
+        let d1 = new Date();
+        let d2 = new Date(date);
+
+        let d1_format = `${d1.getFullYear()}-${d1.getMonth() + 1}-${d1.getDate()}`;
+        let d2_format = `${d2.getFullYear()}-${d2.getMonth() + 1}-${d2.getDate()}`;
+        const diffInMs   = new Date(d2_format) - new Date(d1_format)
+        const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+        return diffInDays;
     }
 
     async calculateClientAge(birth_date) {

@@ -27,10 +27,16 @@ const mocks = {
     validRentDayNot5Or6: require('../mocks/rental/valid-rent-day-not-5-or-6.json'),
     validRentDayNot5Or6MoreDays2: require('../mocks/rental/valid-rent-day-not-5-or-6-more_days-2.json'),
     validRentIsSaturday: require('../mocks/rental/valid-rent-is-saturday.json'),
+    validRent1DayFine: require('../mocks/rental/valid-rent-1-day-fine.json'),
+    validRentFinalize: require('../mocks/rental/valid-rent-finalize.json'),
 };
 
 const seederBaseFoder = join(__dirname, "../../", "database");
 const write = (filename, data) => writeFile(join(seederBaseFoder, filename), JSON.stringify(data));
+
+(async function(){
+    await write('rentals_test.json', mocks.allRentals);
+})();
 
 const rentalDatabase  = join(__dirname, './../../database', "rentals_test.json");
 const movieDatabase  = join(__dirname, './../../database', "movies_test.json");
@@ -86,15 +92,17 @@ describe('RentalService Suite Tests', () => {
             rentalRepository: rentalRepository,
         });
         categoryService = new CategoryService({ repository: categoryRepository });
-    });
+    })
 
     beforeEach( async () => {
         sandbox = sinon.createSandbox();
+
         await write('categories_test.json', mocks.allCategories);
         await write('clients_test.json', mocks.allClients);
         await write('movies_test.json', mocks.allMovies);
         await write('tapes_test.json', mocks.allTapes);
         await write('rentals_test.json', mocks.allRentals);
+
     });
 
     afterEach(() => {
@@ -184,7 +192,6 @@ describe('RentalService Suite Tests', () => {
         expect(JSON.parse(result)).to.eql(expected);
     });
 
-
     it('should create rental error by clientId is undefined', async () => {
         const rental = {
             "clientId": "8591436b-669b-4d4e-a58d-ebef5753383f",
@@ -254,8 +261,8 @@ describe('RentalService Suite Tests', () => {
         expect(result.isRent).to.eql(expected.isRent);
     });
 
-
     it('should create rental when days other than Friday and Saturday and number of tapes less than 2', async () => {
+
         const timestamp = Date.parse("2023-03-29T10:11:12.000");
         sinon.useFakeTimers(timestamp);
 
@@ -300,7 +307,7 @@ describe('RentalService Suite Tests', () => {
         const expected = mocks.validRentDayNot5Or6MoreDays2;
 
         let result = await rentalService.makeRental(rental);
-console.log(result)
+
         result = JSON.parse(result);
         expect(result.id).to.be.exist;
         expect(result.clientId).to.be.exist;
@@ -373,5 +380,97 @@ console.log(result)
         const result = await rentalService.makeRental(rental);
 
         expect(JSON.parse(result)).to.eql(expected);
+    });
+
+    it('should calculate to 2 days late', async () => {
+
+        const timestamp = Date.parse("2023-01-04T10:11:12.000");
+        sinon.useFakeTimers(timestamp);
+
+        const result = await rentalService.calculateDaysLate("2023-01-06T10:11:12.000");
+        const expected = 2;
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should finalize rental by not late', async () => {
+
+        const timestamp = Date.parse("2023-03-31T15:28:16.954Z");
+        sinon.useFakeTimers(timestamp);
+
+        let result = await rentalService.finalizeRental("a01c1176-04d4-4436-9e94-0871424946bc");
+
+        const expected = mocks.validRentFinalize;
+
+        result = JSON.parse(result);
+        expect(result.id).to.be.exist;
+        expect(result.id).to.eql(expected.id);
+        expect(result.clientId).to.be.exist;
+        expect(result.clientId).to.eql(expected.clientId);
+        expect(result.startDate).to.be.exist;
+        expect(result.startDate).to.eql(expected.startDate);
+        expect(result.endDate).to.be.exist;
+        expect(result.endDate).to.eql(expected.endDate);
+        expect(result.amount).to.be.exist;
+        expect(result.amount).to.eql(expected.amount);
+        expect(result.startDate).to.be.exist;
+        expect(result.isRent).to.eql(expected.isRent);
+    });
+
+    it('should calculate fine to 1 days late', async () => {
+
+        const timestamp = Date.parse("2023-04-01T10:11:12.000");
+        sinon.useFakeTimers(timestamp);
+
+        let result = await rentalService.finalizeRental("a01c1176-04d4-4436-9e94-0871424946bc");
+
+        const expected = mocks.validRent1DayFine;
+
+        result = JSON.parse(result);
+        expect(result.id).to.be.exist;
+        expect(result.id).to.eql(expected.id);
+        expect(result.clientId).to.be.exist;
+        expect(result.clientId).to.eql(expected.clientId);
+        expect(result.startDate).to.be.exist;
+        expect(result.startDate).to.eql(expected.startDate);
+        expect(result.endDate).to.be.exist;
+        expect(result.endDate).to.eql(expected.endDate);
+        expect(result.amount).to.be.exist;
+        expect(result.amount).to.eql(expected.amount);
+        expect(result.startDate).to.be.exist;
+        expect(result.isRent).to.eql(expected.isRent);
+    });
+
+    it('should delete to rental error by empty id', async () => {
+
+        let result = await rentalService.finalizeRental("");
+
+        const expected = { "error": "Field id is required"};
+
+        result = JSON.parse(result);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should delete to rental error by undefined id', async () => {
+
+        let result = await rentalService.finalizeRental();
+
+        const expected = { "error": "Field id is required"};
+
+        result = JSON.parse(result);
+
+        expect(result).to.eql(expected);
+    });
+
+    it('should delete to rental error by rental does not exist', async () => {
+        const id = "a01c1176-ffff-ffff-9e94-0871424946bc";
+        let result = await rentalService.finalizeRental(id);
+
+        const expected = { "error": "Rental a01c1176-ffff-ffff-9e94-0871424946bc does not exist"};
+
+        result = JSON.parse(result);
+
+        expect(result).to.eql(expected);
     });
 });
