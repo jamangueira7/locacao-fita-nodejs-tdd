@@ -24,6 +24,9 @@ const mocks = {
     allClients: require('../mocks/client/valid-all-clients.json'),
     allRentals: require('../mocks/rental/valid-all-rentals.json'),
     validRent: require('../mocks/rental/valid-rent.json'),
+    validRentDayNot5Or6: require('../mocks/rental/valid-rent-day-not-5-or-6.json'),
+    validRentDayNot5Or6MoreDays2: require('../mocks/rental/valid-rent-day-not-5-or-6-more_days-2.json'),
+    validRentIsSaturday: require('../mocks/rental/valid-rent-is-saturday.json'),
 };
 
 const seederBaseFoder = join(__dirname, "../../", "database");
@@ -208,6 +211,96 @@ describe('RentalService Suite Tests', () => {
 
         let result = await rentalService.makeRental(rental);
 
+        result = JSON.parse(result);
+        expect(result.id).to.be.exist;
+        expect(result.clientId).to.be.exist;
+        expect(result.clientId).to.eql(expected.clientId);
+        expect(result.startDate).to.be.exist;
+        expect(result.startDate).to.eql(expected.startDate);
+        expect(result.endDate).to.be.exist;
+        expect(result.endDate).to.eql(expected.endDate);
+        expect(result.amount).to.be.exist;
+        expect(result.amount).to.eql(expected.amount);
+        expect(result.startDate).to.be.exist;
+        expect(result.isRent).to.eql(expected.isRent);
+    });
+
+    it('should create rental when day is saturday ', async () => {
+        const timestamp = Date.parse("2023-04-01T10:11:12.000");
+        sinon.useFakeTimers(timestamp);
+
+        const rental = {
+            "clientId": "8591436b-669b-4d4e-a58d-ebef5753383f",
+            "movies": [
+                "d9db55c2-6095-4ec1-975a-d32ee844c9a8",
+                "d665028c-050b-4a39-820e-79d197bca25f",
+            ],
+        };
+        const expected = mocks.validRentIsSaturday;
+
+        let result = await rentalService.makeRental(rental);
+
+        result = JSON.parse(result);
+        expect(result.id).to.be.exist;
+        expect(result.clientId).to.be.exist;
+        expect(result.clientId).to.eql(expected.clientId);
+        expect(result.startDate).to.be.exist;
+        expect(result.startDate).to.eql(expected.startDate);
+        expect(result.endDate).to.be.exist;
+        expect(result.endDate).to.eql(expected.endDate);
+        expect(result.amount).to.be.exist;
+        expect(result.amount).to.eql(expected.amount);
+        expect(result.startDate).to.be.exist;
+        expect(result.isRent).to.eql(expected.isRent);
+    });
+
+
+    it('should create rental when days other than Friday and Saturday and number of tapes less than 2', async () => {
+        const timestamp = Date.parse("2023-03-29T10:11:12.000");
+        sinon.useFakeTimers(timestamp);
+
+        const rental = {
+            "clientId": "8591436b-669b-4d4e-a58d-ebef5753383f",
+            "movies": [
+                "d9db55c2-6095-4ec1-975a-d32ee844c9a8",
+                "d665028c-050b-4a39-820e-79d197bca25f",
+            ],
+        };
+        const expected = mocks.validRentDayNot5Or6;
+
+        let result = await rentalService.makeRental(rental);
+
+        result = JSON.parse(result);
+        expect(result.id).to.be.exist;
+        expect(result.clientId).to.be.exist;
+        expect(result.clientId).to.eql(expected.clientId);
+        expect(result.startDate).to.be.exist;
+        expect(result.startDate).to.eql(expected.startDate);
+        expect(result.endDate).to.be.exist;
+        expect(result.endDate).to.eql(expected.endDate);
+        expect(result.amount).to.be.exist;
+        expect(result.amount).to.eql(expected.amount);
+        expect(result.startDate).to.be.exist;
+        expect(result.isRent).to.eql(expected.isRent);
+    });
+
+    it('should create rental when days other than friday and saturday and number of tapes greater than 2', async () => {
+        const timestamp = Date.parse("2023-03-29T10:11:12.000");
+        sinon.useFakeTimers(timestamp);
+
+        const rental = {
+            "clientId": "8591436b-669b-4d4e-a58d-ebef5753383f",
+            "movies": [
+                "d9db55c2-6095-4ec1-975a-d32ee844c9a8",
+                "fda3e16a-2e6e-41fb-8368-3dba38372eda",
+                "95e55b5b-a601-4b92-8ad6-267ed8eabc77",
+            ],
+        };
+
+        const expected = mocks.validRentDayNot5Or6MoreDays2;
+
+        let result = await rentalService.makeRental(rental);
+console.log(result)
         result = JSON.parse(result);
         expect(result.id).to.be.exist;
         expect(result.clientId).to.be.exist;

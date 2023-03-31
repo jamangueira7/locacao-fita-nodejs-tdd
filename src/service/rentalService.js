@@ -64,16 +64,28 @@ class RentalService {
                 tapeIds.push(tape.id);
             }
 
+            let today = new Date();
+            let more_days = 1;
+            if(today.getDay() === 5) {
+                more_days = 3;
+            } else if(today.getDay() === 6 ) {
+                more_days = 2;
+            } else if(rental_param.movies.length > 2 && today.getDay() !== 5 && today.getDay() !== 6) {
+                more_days = 2;
+            }
 
-            const end_date = await this.calculateEndDate(1);
+            const end_date = await this.calculateEndDate(more_days);
 
-
+            console.log("***", today.getDay())
+            console.log("***", today)
+            console.log("***", more_days)
+            console.log("***", end_date)
 
             const rental = new Rental({
                 id: uuidv4(),
                 tapeId: tapeIds,
                 clientId: client.id,
-                startDate: new Date(),
+                startDate: today,
                 endDate: end_date,
                 amount: 0,
                 isRent: true,
