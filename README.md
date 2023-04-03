@@ -23,6 +23,17 @@ Esse projeto é para treinar testes TDD. Fiz um projeto de locação de fita.
 
 Na criação do banco com as seeds eu usei nomes fakes. Por exemplo as categorias era para serem "ação" "comedia" "drama" mas ficaram com nomes aleatorios. Nomes e descrições dos filmes idem.
 
+![img.png](.github%2Fimg.png)
+![img_1.png](.github%2Fimg_1.png)
+![img_2.png](.github%2Fimg_2.png)
+![img_3.png](.github%2Fimg_3.png)
+![img_4.png](.github%2Fimg_4.png)
+![img_5.png](.github%2Fimg_5.png)
+![img_6.png](.github%2Fimg_6.png)
+![img_7.png](.github%2Fimg_7.png)
+![img_8.png](.github%2Fimg_8.png)
+![img_9.png](.github%2Fimg_9.png)
+
 ## 🚀 Como Rodar
 
 - Clone o projeto.
