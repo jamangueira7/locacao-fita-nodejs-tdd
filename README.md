@@ -606,6 +606,60 @@ Retorna:
 }
 ```
 
+- **`POST /rental`**: Rota para criar um aluguel de fita
+
+enviar:
+```
+{
+    "clientId": "8591436b-669b-4d4e-a58d-ebef5753383f",
+    "movies": [
+        "e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+        "9c85295f-e021-4f00-9a78-e575ae08c451",
+    ],
+}
+```
+
+Retorna:
+```
+{
+   "id":"fea5fe95-ded3-4bdc-aef0-eba057218a55",
+   "tapeId":[
+      "5f190ef2-9a44-43b0-9ddd-01ed19a6943e",
+      "995c94fb-d67a-4b06-8331-e88bfbda93fd"
+   ],
+   "clientId":"8591436b-669b-4d4e-a58d-ebef5753383f",
+   "startDate":"2023-03-31T13:11:12.000Z",
+   "endDate":"2023-04-03T13:11:12.000Z",
+   "amount":"8.00",
+   "isRent":true
+}
+```
+
+- **`POST /rental/finalize`**: Rota para finalizar um aluguel de fita
+
+enviar:
+```
+{
+    "id": "a01c1176-04d4-4436-9e94-0871424946bc"
+}
+```
+
+Retorna:
+```
+{
+   "id":"fea5fe95-ded3-4bdc-aef0-eba057218a55",
+   "tapeId":[
+      "5f190ef2-9a44-43b0-9ddd-01ed19a6943e",
+      "995c94fb-d67a-4b06-8331-e88bfbda93fd"
+   ],
+   "clientId":"8591436b-669b-4d4e-a58d-ebef5753383f",
+   "startDate":"2023-03-31T13:11:12.000Z",
+   "endDate":"2023-04-03T13:11:12.000Z",
+   "amount":"8.00",
+   "isRent":false
+}
+```
+
 ## 📖 Story: Alugar uma fita
 
 #### Caso de Uso 01
