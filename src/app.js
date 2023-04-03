@@ -17,6 +17,7 @@ let dbCategory;
 let dbClient;
 let dbMovies;
 let dbTapes;
+let dbRentals;
 
 const PORT = 3000;
 const DEFAULT_HEADER = { 'Content-Type' : 'application/json' };
@@ -33,19 +34,26 @@ const createService = () => {
     const db_client_filename = ENVIRONMENT === "produce" ? "clients.json" : "clients_test.json";
     const db_movie_filename = ENVIRONMENT === "produce" ? "movies.json" : "movies_test.json";
     const db_tape_filename = ENVIRONMENT === "produce" ? "tapes.json" : "tapes_test.json";
+    const db_rental_filename = ENVIRONMENT === "produce" ? "rentals.json" : "rentals_test.json";
 
     categoryRepository.init({ file: dbCategory }, db_category_filename);
     clientRepository.init({ file: dbClient }, db_client_filename);
     movieRepository.init({ file: dbMovies}, db_movie_filename);
     tapeRepository.init({ file: dbTapes}, db_tape_filename);
-    //rentalRepository.init({ file: });
+    rentalRepository.init({ file: dbRentals}, db_rental_filename);
 
     return {
         CategoryService: new CategoryService({ repository: categoryRepository }),
         ClientService: new ClientService({ repository: clientRepository }),
         MovieService: new MovieService({ repository: movieRepository, categoryRepository: categoryRepository }),
         TapeService: new TapeService({ repository: tapeRepository, movieRepository: movieRepository }),
-        RentalService: new RentalService({ repository: rentalRepository }),
+        RentalService: new RentalService({
+            repository: rentalRepository,
+            clientRepository: clientRepository,
+            movieRepository: movieRepository,
+            tapeRepository: tapeRepository,
+            rentalRepository: rentalRepository,
+        }),
     }
 }
 
@@ -56,12 +64,14 @@ const createDependencies = (environment) => {
         dbClient = join(__dirname, '../database', "clients.json");
         dbMovies = join(__dirname, '../database', "movies.json");
         dbTapes = join(__dirname, '../database', "tapes.json");
+        dbRentals = join(__dirname, '../database', "rentals.json");
 
     } else {
         dbCategory = join(__dirname, '../test/mocks/category', "valid-all-categories.json");
         dbClient = join(__dirname, '../test/mocks/client', "valid-all-clients.json");
         dbMovies = join(__dirname, '../test/mocks/movie', "valid-all-movies.json");
         dbTapes = join(__dirname, '../test/mocks/tape', "valid-all-tapes.json");
+        dbRentals = join(__dirname, '../test/mocks/rental', "valid-all-rentals.json");
     }
 
 }
@@ -72,6 +82,7 @@ class App {
         this.clientService = dependencies.ClientService;
         this.movieService = dependencies.MovieService;
         this.tapeService = dependencies.TapeService;
+        this.rentalService = dependencies.RentalService;
     }
 
 
@@ -289,6 +300,28 @@ class App {
 
                 const client = await this.movieService.deleteMovie(dataValue.id);
                 response.write(client);
+                return response.end();
+            },
+
+            '/rental:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+
+                }
+
+                const rental = await this.rentalService.makeRental(dataValue);
+                response.write(rental);
+                return response.end();
+            },
+            '/rental/finalize:post': async (request, response) => {
+                let dataValue = {}
+                for await (const data of request) {
+                    dataValue = JSON.parse(data);
+                }
+
+                const rental = await this.rentalService.finalizeRental(dataValue.id);
+                response.write(rental);
                 return response.end();
             },
 

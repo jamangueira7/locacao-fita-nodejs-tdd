@@ -29,6 +29,10 @@ const mocks = {
     moviesByRange: require("../mocks/movie/valid-all-movies-range-1997-2010.json"),
     moviesByPartOfName: require("../mocks/movie/valid-all-movies-by-part-of-name.json"),
     moviesByPartOfDesc: require("../mocks/movie/valid-all-movies-by-part-of-description.json"),
+    allRentals: require("../mocks/rental/valid-all-rentals.json"),
+    validRent: require("../mocks/rental/valid-rent.json"),
+    validRentFinalize: require("../mocks/rental/valid-rent-finalize.json"),
+    validRent1DayFine: require("../mocks/rental/valid-rent-1-day-fine.json"),
 }
 
 const write = (filename, data) => writeFile(join(seederBaseFoder, filename), JSON.stringify(data));
@@ -42,6 +46,7 @@ describe("API Suite test", () => {
         await write('clients_test.json', mocks.allClients);
         await write('movies_test.json', mocks.allMovies);
         await write('tapes_test.json', mocks.allTapes);
+        await write('rentals_test.json', mocks.allRentals);
         sandbox = sinon.createSandbox();
     });
 
@@ -1296,6 +1301,305 @@ describe("API Suite test", () => {
                     .post(`/movie/delete`)
                     .send({
                         "id": "ea99a7c7-7932-4dc9-ae8d-b601d84961dd",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+        });
+
+        describe('/rentals', () => {
+
+            it('create rental error by clientId empty', async () => {
+                const expected = {
+                    "error": "Field clientId is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "movies": [
+                            "e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+                            "9c85295f-e021-4f00-9a78-e575ae08c451",
+                        ]
+
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by clientId undefined', async () => {
+                const expected = {
+                    "error": "Field clientId is required",
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "movies": [
+                            "e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+                            "9c85295f-e021-4f00-9a78-e575ae08c451",
+                        ],
+                        "test":"8591436b-669b-4d4e-a58d-ebef5753383f",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by movies empty', async () => {
+                const expected = {
+                    "error": "Send at least one movie",
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "movies":[],
+                        "clientId":"8591436b-669b-4d4e-a58d-ebef5753383f",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by movies undefined', async () => {
+                const expected = {
+                    "error": "Send at least one movie",
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "tapesId":[],
+                        "clientId":"8591436b-669b-4d4e-a58d-ebef5753383f",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by client does not exist', async () => {
+                const expected = {
+                    "error": "Client does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "movies": [
+                            "e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+                            "9c85295f-e021-4f00-9a78-e575ae08c451",
+                        ],
+                        "clientId":"8591436b-ffff-ffff-a58d-ebef5753383f",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by movie does not exist', async () => {
+                const expected = {
+                    "error": "Movie 5f190ef2-ffff-ffff-9ddd-01ed19a6943e does not exist",
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "movies":[
+                            "5f190ef2-ffff-ffff-9ddd-01ed19a6943e"
+                        ],
+                        "clientId":"8591436b-669b-4d4e-a58d-ebef5753383f",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by movie no tapes available', async () => {
+                const expected = {
+                    "error": "Movie 9c85295f-e021-4f00-9a78-e575ae08c451 no tapes available",
+                };
+
+                sandbox
+                    .stub(api.instance.tapeService, "getRandomTapeByMovieId")
+                    .resolves(false)
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "movies":[
+                            "e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+                            "9c85295f-e021-4f00-9a78-e575ae08c451",
+                        ],
+                        "clientId":"8591436b-669b-4d4e-a58d-ebef5753383f",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by client age is not enough', async () => {
+                const expected = {
+                    "error": "Client 8591436b-669b-4d4e-a58d-ebef5753383f is not old enough to watch this movie",
+                };
+
+                sandbox
+                    .stub(api.instance.rentalService, "calculateClientAge")
+                    .resolves(15)
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "clientId": "8591436b-669b-4d4e-a58d-ebef5753383f",
+                        "movies": [
+                            "e841e9fc-a1f3-4cbf-aed7-cd4fdd4d59ae",
+                            "9c85295f-e021-4f00-9a78-e575ae08c451",
+                        ],
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental', async () => {
+                const expected = mocks.validRent;
+                const timestamp = Date.parse("2023-03-31T10:11:12.000");
+                sinon.useFakeTimers(timestamp);
+
+                const response = await request(api.server)
+                    .post(`/rental`)
+                    .send({
+                        "clientId": "8591436b-669b-4d4e-a58d-ebef5753383f",
+                        "movies": [
+                            "d9db55c2-6095-4ec1-975a-d32ee844c9a8",
+                            "d665028c-050b-4a39-820e-79d197bca25f",
+                        ],
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.ok(expected.id);
+                assert.deepStrictEqual(aux.clientId, expected.clientId);
+
+                assert.deepStrictEqual(aux.startDate, expected.startDate);
+                assert.deepStrictEqual(aux.endDate, expected.endDate);
+                assert.deepStrictEqual(aux.amount, expected.amount);
+                assert.deepStrictEqual(aux.startDate, expected.startDate);
+                assert.deepStrictEqual(aux.isRent, expected.isRent);
+            });
+
+            it('finalize rental by not late', async () => {
+                const expected = mocks.validRentFinalize;
+                const timestamp = Date.parse("2023-03-31T15:28:16.954Z");
+                sinon.useFakeTimers(timestamp);
+
+                const response = await request(api.server)
+                    .post(`/rental/finalize`)
+                    .send({
+                        "id": "a01c1176-04d4-4436-9e94-0871424946bc"
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.ok(expected.id);
+                assert.deepStrictEqual(aux.id, expected.id);
+                assert.deepStrictEqual(aux.clientId, expected.clientId);
+                assert.deepStrictEqual(aux.startDate, expected.startDate);
+                assert.deepStrictEqual(aux.endDate, expected.endDate);
+                assert.deepStrictEqual(aux.amount, expected.amount);
+                assert.deepStrictEqual(aux.startDate, expected.startDate);
+                assert.deepStrictEqual(aux.isRent, expected.isRent);
+            });
+
+            it('finalize rental by 1 day late', async () => {
+                const expected = mocks.validRent1DayFine;
+                const timestamp = Date.parse("2023-04-01T10:11:12.000");
+                sinon.useFakeTimers(timestamp);
+
+                const response = await request(api.server)
+                    .post(`/rental/finalize`)
+                    .send({
+                        "id": "a01c1176-04d4-4436-9e94-0871424946bc"
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.ok(expected.id);
+                assert.deepStrictEqual(aux.id, expected.id);
+                assert.deepStrictEqual(aux.clientId, expected.clientId);
+                assert.deepStrictEqual(aux.startDate, expected.startDate);
+                assert.deepStrictEqual(aux.endDate, expected.endDate);
+                assert.deepStrictEqual(aux.amount, expected.amount);
+                assert.deepStrictEqual(aux.startDate, expected.startDate);
+                assert.deepStrictEqual(aux.isRent, expected.isRent);
+            });
+
+            it('create rental error by id is empty', async () => {
+                const expected = {
+                    "error": "Field id is required"
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental/finalize`)
+                    .send({
+                        "id": "",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by id is undefined', async () => {
+                const expected = {
+                    "error": "Field id is required"
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental/finalize`)
+                    .send({
+                        "test": "",
+                    })
+                    .expect(200)
+
+                const aux = JSON.parse(response.text);
+
+                assert.deepStrictEqual(aux, expected);
+            });
+
+            it('create rental error by rental does not exist', async () => {
+                const expected = {
+                    "error": "Rental a01c1176-ffff-ffff-9e94-0871424946bc does not exist"
+                };
+
+                const response = await request(api.server)
+                    .post(`/rental/finalize`)
+                    .send({
+                        "id": "a01c1176-ffff-ffff-9e94-0871424946bc",
                     })
                     .expect(200)
 
